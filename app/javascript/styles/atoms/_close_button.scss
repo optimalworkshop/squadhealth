@@ -1,0 +1,32 @@
+.close-button {
+  display: block;
+  border: 0;
+  appearance: none;
+  background-color: transparent;
+  color: var(--text-secondary);
+  opacity: 0.5;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0.5rem;
+  cursor: pointer;
+
+  svg {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    line {
+      stroke: currentColor;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    opacity: 1;
+    outline: none;
+  }
+}

@@ -267,12 +267,12 @@ $colors: (
   ),
 );
 
-@function color($hue, $shade: 500) {
+@function color($hue, $shade: 500, $opacity: 1) {
   @if ($hue == black) {
-    @return map-get($colors, black);
+    @return change-color(map-get($colors, black), $alpha: $opacity);
   }
   @if ($hue == white) {
-    @return map-get($colors, white);
+    @return change-color(map-get($colors, white), $alpha: $opacity);
   }
-  @return map-get(map-get($colors, $hue), $shade);
+  @return change-color(map-get(map-get($colors, $hue), $shade), $alpha: $opacity);
 }

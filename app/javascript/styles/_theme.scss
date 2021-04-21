@@ -1,0 +1,22 @@
+$grey: blue-grey;
+$accent: light-blue;
+
+@mixin color-variations($name: accent, $hue: $accent) {
+  --#{$name}: #{color($hue)};
+  --#{$name}-white: #{color($hue, 50)};
+  --#{$name}-light: #{color($hue, 300)};
+  --#{$name}-dark: #{color($hue, 700)};
+  --#{$name}-translucent: #{change-color(color($hue), $alpha: 0.25)};
+}
+
+:root {
+  --background: #{color($grey, 50)};
+  --foreground: #{color($grey, 800)};
+  --text-primary: #{color($grey, 900)};
+  --text-secondary: #{color($grey, 600)};
+  --text-tertiary: #{color($grey, 400)};
+  --text-disabled: #{color($grey, 300)};
+  --border: #{color($grey, 300)};
+
+  @include color-variations;
+}

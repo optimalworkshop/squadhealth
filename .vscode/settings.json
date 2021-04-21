@@ -1,4 +1,5 @@
 {
+  "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.alwaysShowStatus": true,
   "[typescript]": {
     "editor.formatOnSave": true
