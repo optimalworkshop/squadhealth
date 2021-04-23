@@ -1,0 +1,139 @@
+.room-code {
+  $transition-duration: 750ms;
+  $hue: rose;
+
+  position: relative;
+  width: 10em;
+  height: 10em;
+  backface-visibility: hidden;
+  cursor: pointer;
+
+  &,
+  &__sticky,
+  &__sticky &__wrapper,
+  &__sticky &__circle,
+  &__code {
+    transition: transition(all, $duration: $transition-duration);
+  }
+
+  &__sticky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10em;
+    height: 10em;
+    transform: rotate(35deg);
+  }
+
+  &__underneath {
+    .room-code__circle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: color(white);
+    }
+  }
+
+  &__wrapper {
+    position: absolute;
+    width: 10em;
+    height: 10em;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+  }
+
+  &__circle {
+    position: absolute;
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+  }
+
+  &__back {
+    height: 1em;
+    top: 1em;
+
+    .room-code__circle {
+      margin-top: -9em;
+      background-color: #{color($hue, 300)};
+      background-image: linear-gradient(to top, rgba(251, 236, 63, 0), rgba(255, 255, 255, 0.8));
+    }
+  }
+
+  &__front {
+    height: 9em;
+    width: 10em;
+    bottom: 0;
+    top: auto;
+    box-shadow: 0 -10em 1.5em -10em color(black, $opacity: 0.1);
+
+    .room-code__circle {
+      margin: -1em 0 0;
+      background: color($hue);
+      background-image: linear-gradient(to top, #{color($hue, 600, $opacity: 0)} 75%, #{color($hue, 600)} 95%);
+    }
+  }
+
+  &__code {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    line-height: 1;
+    color: color($hue, 100);
+    font-size: 3em;
+    margin: 0;
+    padding: 0;
+    transform: rotate(-35deg);
+
+    &::before {
+      display: block;
+      font-size: 0.375em;
+      font-weight: normal;
+      content: "Room code";
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1;
+    }
+  }
+
+  &:hover {
+    .room-code {
+      &__sticky {
+        transform: rotate(10deg);
+      }
+
+      &__back {
+        height: 6.5em;
+        top: 6.5em;
+
+        .room-code__circle {
+          margin-top: -3.5em;
+        }
+      }
+
+      &__front {
+        height: 3.5em;
+        box-shadow: 0 -60px 10px -60px rgba(0, 0, 0, 0.1);
+
+        .room-code__circle {
+          margin-top: -6.5em;
+          background-color: color($hue, 600);
+          background-position: 0 6.5em;
+        }
+      }
+
+      &__code {
+        transform: rotate(-10deg);
+      }
+    }
+  }
+}

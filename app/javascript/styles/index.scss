@@ -4,7 +4,8 @@
 @import "./theme";
 @import "./atoms/index";
 @import "./molecules/index";
-@import "./home";
+@import "./pages/home";
+@import "./pages/room";
 
 * {
   box-sizing: border-box;
@@ -28,6 +29,20 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--background);
+  // background: var(--background)
+  //   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='filter'%3E%3CfeTurbulence baseFrequency='0.2'/%3E%3CfeColorMatrix values='0 0 0 -9 5 0 0 0 -9 5 0 0 0 -9 5 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23filter)' opacity='0.1'/%3E%3C/svg%3E");
+  // background-blend-mode: multiply;
   color: var(--foreground);
   font-size: 1em;
+}
+
+.application {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }

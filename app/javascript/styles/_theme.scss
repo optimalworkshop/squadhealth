@@ -1,5 +1,6 @@
 $grey: blue-grey;
 $accent: light-blue;
+$error: rose;
 
 @mixin color-variations($name: accent, $hue: $accent) {
   --#{$name}: #{color($hue)};
@@ -16,6 +17,7 @@ $accent: light-blue;
   --text-secondary: #{color($grey, 600)};
   --text-tertiary: #{color($grey, 400)};
   --text-disabled: #{color($grey, 300)};
+  --text-error: #{color($error, 600)};
   --border: #{color($grey, 300)};
 
   @include color-variations;

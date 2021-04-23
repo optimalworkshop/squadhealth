@@ -1,15 +1,14 @@
-import React, { forwardRef, HTMLAttributes } from 'react';
+import React, { forwardRef, ComponentPropsWithoutRef } from 'react';
 import classNames, { ClassValue } from 'clsx';
 
-interface Props extends Omit<HTMLAttributes<HTMLButtonElement>, 'className'> {
+interface Props extends Omit<ComponentPropsWithoutRef<'button'>, 'className'> {
   text: string;
   className?: ClassValue;
   type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ text, className, type = 'button', disabled, ...props }, ref) => {
+  ({ text, className, type = 'button', ...props }, ref) => {
     return (
       <button
         ref={ref}

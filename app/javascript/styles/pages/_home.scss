@@ -1,12 +1,9 @@
 .home {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
-  width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
 
   &::before {
     flex: 1;
@@ -41,47 +38,6 @@
   justify-content: center;
   align-items: flex-start;
 
-  .mode {
-    position: relative;
-    padding-bottom: 1rem;
-    transition: transition(transform opacity, $duration: slow);
-
-    &__title {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      width: 13rem;
-      border: 0;
-      appearance: none;
-      background-color: transparent;
-      font-size: 1.5rem;
-      line-height: 2rem;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: transition(all);
-      text-align: center;
-      text-decoration: none;
-      opacity: 0.85;
-
-      b {
-        display: block;
-        text-transform: uppercase;
-        font-size: 4.5rem;
-        line-height: 6rem;
-        color: var(--text-primary);
-        transition: transition(color);
-      }
-
-      &:hover,
-      &:focus,
-      &:active {
-        outline: none;
-        opacity: 1;
-      }
-    }
-  }
-
   &__or {
     align-self: stretch;
     display: flex;
@@ -110,11 +66,16 @@
       line-height: 3rem;
       width: 3rem;
       text-align: center;
-      transition: transition(opacity, $delay: fast);
-      transform: rotate(-7deg);
+      transform: rotate(-7deg) scale(1);
+      transition: transition(transform, $easing: bounce-out, $delay: 500ms);
     }
 
     [data-mode] & {
+      b {
+        transform: rotate(-7deg) scale(0);
+        transition: transition(transform, $easing: bounce-in);
+      }
+
       &::before {
         transform: translateY(-300%);
         opacity: 0;
@@ -123,6 +84,38 @@
       &::after {
         transform: translateY(300%);
         opacity: 0;
+      }
+    }
+  }
+
+  .mode {
+    position: relative;
+    padding-bottom: 1rem;
+
+    &__title {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 13rem;
+      border: 0;
+      appearance: none;
+      background-color: transparent;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      opacity: 0.85;
+
+      b {
+        display: block;
+        text-transform: uppercase;
+        font-size: 4.5rem;
+        line-height: 6rem;
+        color: var(--text-primary);
+        transform-origin: center;
       }
     }
   }
@@ -136,7 +129,6 @@
     &[data-mode="#{$mode}"] {
       .mode--#{$mode} {
         transform: translateX(calc((50% + 2.5rem) * #{$direction}));
-        transition-delay: duration(fast);
 
         .mode__title {
           opacity: 1;
@@ -144,13 +136,19 @@
       }
 
       .mode--#{$other-mode} {
-        transform: translateX(#{100% * $direction});
         opacity: 0;
+        transform: translateX(#{100% * $direction});
+        pointer-events: none;
+        touch-action: none;
       }
 
-      .mode-selector__or {
-        b {
-          opacity: 0;
+      ~ .mode-content--#{$mode} {
+        touch-action: initial;
+        pointer-events: initial;
+
+        > * {
+          transform: translateY(0);
+          opacity: 1;
         }
       }
     }
@@ -162,65 +160,17 @@
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: calc((100vh - 10rem) * 0.4 + 6rem);
+  top: calc(33.333vh + 6rem);
   right: 0;
   left: 0;
   padding: 2rem;
   text-align: center;
-
-  p {
-    max-width: 13rem;
-    color: var(--text-tertiary);
-  }
+  pointer-events: none;
+  touch-action: none;
 
   > * {
-    max-width: 20rem;
-    transform: translateY(50vh);
+    transform: translateY(25vh);
     opacity: 0;
-
-    @for $i from 1 through 10 {
-      &:nth-child(#{$i}) {
-        transition-delay: ($i - 1) * 100ms;
-      }
-    }
-  }
-
-  &--enter {
-    > * {
-      transform: translateY(50vh);
-      opacity: 0;
-    }
-
-    &-active,
-    &-done {
-      > * {
-        transition: transition(transform opacity, $duration: 500ms, $easing: decelerate);
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  }
-
-  &--exit {
-    > * {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    &-active,
-    &-done {
-      > * {
-        transition: transition(transform opacity, $duration: 500ms, $easing: accelerate);
-        transform: translateY(50vh);
-        opacity: 0;
-
-        @for $i from 1 through 10 {
-          &:nth-last-child(#{$i}) {
-            transition-delay: ($i - 1) * 100ms;
-          }
-        }
-      }
-    }
   }
 }
 
@@ -237,7 +187,6 @@
 
       b {
         transform: rotate(7deg);
-        transition-delay: 500ms;
       }
 
       &::before,
@@ -245,23 +194,11 @@
         margin: 0.5px 0;
         border-left: 0;
         border-top: 1px solid currentColor;
-        transition-delay: 500ms;
       }
-    }
-
-    .mode--host,
-    .mode--join {
-      transition-delay: duration(slow);
     }
 
     &[data-mode] {
       .mode-selector__or {
-        b,
-        &::before,
-        &::after {
-          transition-delay: 0ms;
-        }
-
         &::before {
           transform: translateX(-50vw);
         }
@@ -274,12 +211,10 @@
 
     &[data-mode="host"] {
       .mode--host {
-        transition-delay: 0ms;
         transform: translateY(calc(-40vh + 100% + 3rem));
       }
 
       .mode--join {
-        transition-delay: 0ms;
         transform: translateY(calc(50vh - 100% - 3rem));
       }
     }
@@ -287,22 +222,10 @@
     &[data-mode="join"] {
       .mode--join {
         transform: translateY(-40vh);
-        transition-delay: 100ms;
       }
 
       .mode--host {
         transform: translateY(-50vh);
-        transition-delay: 0ms;
-      }
-
-      ~ .mode-content {
-        > * {
-          @for $i from 1 through 10 {
-            &:nth-child(#{$i}) {
-              transition-delay: ($i + 2) * 100ms;
-            }
-          }
-        }
       }
     }
   }

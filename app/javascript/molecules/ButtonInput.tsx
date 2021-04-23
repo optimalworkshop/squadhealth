@@ -14,28 +14,32 @@ interface Props
 }
 
 const ButtonInput = forwardRef<HTMLInputElement, Props>(
-  ({ button, className, disabled, onClick, ...props }, ref) => (
-    <div
-      className={classNames(
-        'button-input',
-        disabled && 'button-input--disabled',
-        className
-      )}
-    >
-      <input
-        ref={ref}
-        className="button-input__input"
-        disabled={disabled || undefined}
-        {...props}
-      />
-      <Button
-        className="button-input__props"
-        text={button}
-        disabled={disabled || undefined}
-        onClick={onClick}
-      />
-    </div>
-  )
+  ({ button, className, disabled, onClick, onKeyPress, ...props }, ref) => {
+    const keyPressed = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        onClick(e);
+      }
+      if (onKeyPress) onKeyPress(e);
+    };
+
+    return (
+      <div className={classNames('button-input', className)}>
+        <input
+          ref={ref}
+          className="button-input__input"
+          onKeyPress={keyPressed}
+          {...props}
+        />
+        <Button
+          className="button-input__button"
+          text={button}
+          disabled={disabled || undefined}
+          onClick={onClick}
+        />
+      </div>
+    );
+  }
 );
 
 export default ButtonInput;

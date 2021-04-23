@@ -18,6 +18,11 @@ gem 'webpacker', '~> 5.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'hashid-rails'
+
+gem 'graphql', '~> 1.12'
+gem 'graphql-batch', '~> 0.4.3'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
@@ -38,6 +43,8 @@ group :development do
 
   gem 'rubocop'
   gem 'rubocop-rails'
+
+  gem 'graphiql-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
