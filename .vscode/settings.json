@@ -12,5 +12,11 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["cosmos.config.json"],
+      "url": "./node_modules/react-cosmos/config.schema.json"
+    }
+  ]
 }

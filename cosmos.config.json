@@ -1,0 +1,7 @@
+{
+  "webpack": {
+    "configPath": "./config/webpack/development.js"
+  },
+  "watchDirs": ["./app/javascript"],
+  "globalImports": ["./app/javascript/styles/index.scss"]
+}
