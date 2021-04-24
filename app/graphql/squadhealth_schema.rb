@@ -2,6 +2,8 @@ class SquadhealthSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
+  use GraphQL::Batch
+
   rescue_from(ActiveRecord::RecordNotFound) do
     raise GraphQL::ExecutionError.new(
       'Not found',
