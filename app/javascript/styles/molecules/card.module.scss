@@ -1,0 +1,46 @@
+.card {
+  @include shadow(2);
+  position: relative;
+  width: 100%;
+  max-width: 20rem;
+  border-radius: 0.5rem;
+  user-select: none;
+  background: color(white);
+
+  &::before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-top: 163.636%;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1.5rem;
+    border-radius: 0.25rem;
+  }
+
+  &__icon {
+    width: 30%;
+    height: auto;
+  }
+
+  &__name {
+    margin: 0 0 1rem;
+    font-size: 2rem;
+    line-height: 2.5rem;
+    text-align: center;
+  }
+
+  &__definitions {
+    min-height: 50%;
+  }
+}

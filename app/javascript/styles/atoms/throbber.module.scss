@@ -1,0 +1,37 @@
+@keyframes throbber__moon {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(18px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes throbber {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --throbber-color: var(--accent);
+}
+
+.throbber {
+  color: var(--throbber-color);
+  filter: url(#goo);
+
+  > g {
+    animation: 2s linear infinite throbber;
+  }
+
+  &__moon {
+    animation: 2s easing(standard) infinite throbber__moon;
+  }
+}

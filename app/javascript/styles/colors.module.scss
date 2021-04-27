@@ -1,3 +1,6 @@
+@import "./util/str-split";
+@import "./util/ucfirst";
+
 $colors: (
   black: #000,
   white: #fff,
@@ -275,4 +278,26 @@ $colors: (
     @return change-color(map-get($colors, white), $alpha: $opacity);
   }
   @return change-color(map-get(map-get($colors, $hue), $shade), $alpha: $opacity);
+}
+
+:export {
+  black: color(black);
+  white: color(white);
+
+  @each $hue, $palette in $colors {
+    $parts: str-split(quote($hue), "-");
+
+    @if length($parts) > 1 {
+      $hue: nth($parts, 1);
+      @for $i from 2 through length($parts) {
+        $hue: $hue + ucfirst(nth($parts, $i));
+      }
+
+      $hue: unquote($hue);
+    }
+
+    @each $shade, $color in $palette {
+      #{$hue}#{$shade}: $color;
+    }
+  }
 }
