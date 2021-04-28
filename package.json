@@ -25,6 +25,7 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "lodash": "^4.17.21",
+    "luxon": "^1.26.0",
     "mini-css-extract-plugin": "^1.5.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

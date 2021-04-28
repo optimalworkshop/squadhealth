@@ -1,0 +1,143 @@
+.results-table {
+  --highlight-background-color: #{color(light-blue, 100)};
+
+  position: relative;
+  flex: 1;
+  align-self: stretch;
+  overflow: auto;
+  margin: 1rem 0 0 1rem;
+
+  table {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    margin: 0;
+    padding: 0.5rem 0;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border);
+  }
+
+  thead {
+    th {
+      position: sticky;
+      top: 0;
+      width: 7rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: normal;
+      background: var(--background);
+      color: var(--text-secondary);
+      z-index: 2;
+
+      b {
+        display: block;
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+      }
+
+      &:first-child {
+        position: sticky;
+        left: 0;
+        width: 20rem;
+        z-index: 3;
+      }
+
+      &:nth-child(2) {
+        position: sticky;
+        left: 20rem;
+        background-color: var(--highlight-background-color);
+        z-index: 3;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+
+        b {
+          color: var(--text-primary);
+        }
+      }
+    }
+  }
+
+  tbody {
+    th {
+      position: sticky;
+      left: 0;
+      text-align: left;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 2rem;
+      background-color: var(--background);
+      color: var(--text-primary);
+      z-index: 1;
+
+      .icon {
+        width: 3rem;
+        height: 3rem;
+        margin-right: 1rem;
+      }
+    }
+
+    td {
+      &:nth-child(2) {
+        position: sticky;
+        left: 20rem;
+        background-color: var(--highlight-background-color);
+        z-index: 1;
+
+        .face {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .labelled-icon {
+    display: flex;
+    align-items: center;
+    min-width: 20rem;
+  }
+
+  .face {
+    display: block;
+    width: 7rem;
+    height: 3rem;
+    margin: 0 auto;
+    opacity: 0.75;
+    transition: transition(transform, $duration: slow);
+
+    &:hover {
+      transform: scale(1.1) rotate(10deg);
+    }
+  }
+
+  @media screen and (max-width: 25rem) {
+    .labelled-icon {
+      min-width: auto;
+
+      > span {
+        display: none;
+      }
+    }
+
+    thead {
+      th {
+        &:nth-child(2) {
+          left: 4rem;
+        }
+      }
+    }
+
+    tbody {
+      td {
+        &:nth-child(2) {
+          left: 4rem;
+        }
+      }
+    }
+  }
+}

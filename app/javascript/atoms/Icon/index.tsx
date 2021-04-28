@@ -1,4 +1,4 @@
-import Icon, { IconProps } from './Icon';
+import Icon from './Icon';
 
 export { default as Value } from './icons/value';
 export { default as Pawn } from './icons/pawn';

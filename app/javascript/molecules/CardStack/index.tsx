@@ -14,10 +14,12 @@ const backgroundColor = chroma
 const MAX_ROTATION = 15;
 
 interface Props {
-  cards: Value[];
+  cards?: Value[];
 }
 
-const CardStack: React.FC<Props> = ({ cards: deck = VALUES }) => {
+const CardStack: React.FC<Props> = ({
+  cards: deck = Object.values(VALUES),
+}) => {
   const container = useRef<HTMLDivElement>();
 
   const cards = useMemo(() => deck.slice().reverse(), [deck]);
@@ -64,7 +66,7 @@ const CardStack: React.FC<Props> = ({ cards: deck = VALUES }) => {
 
         if (i !== index) return;
 
-        const { id } = VALUES[i];
+        const { id } = deck[i];
 
         if ((Math.abs(dx) > threshold || velocity > 0.2) && !down) {
           sorted.current.add(id);
