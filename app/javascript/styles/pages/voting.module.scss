@@ -1,0 +1,78 @@
+.voting {
+  position: relative;
+  flex: 1;
+  align-self: stretch;
+  overflow: hidden;
+
+  &__waiting {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+    pointer-events: none;
+
+    > * {
+      transform: translateY(-100vh);
+      opacity: 0;
+    }
+
+    .throbber {
+      width: 10rem;
+      height: 10rem;
+      margin: 0 auto 2rem;
+    }
+
+    p {
+      text-align: center;
+      max-width: 12em;
+      font-size: 2rem;
+      color: var(--text-secondary);
+      margin: 0 2rem;
+    }
+
+    .voting--waiting & {
+      > * {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  }
+
+  &__voting {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    text-align: center;
+
+    > * {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+
+    .voting--voting & {
+      > * {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  }
+
+  &__status {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: var(--text-secondary);
+  }
+}

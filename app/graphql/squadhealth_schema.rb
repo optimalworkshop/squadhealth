@@ -1,8 +1,10 @@
 class SquadhealthSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
+  subscription(Types::SubscriptionType)
 
   use GraphQL::Batch
+  use GraphQL::Subscriptions::ActionCableSubscriptions
 
   rescue_from(ActiveRecord::RecordNotFound) do
     raise GraphQL::ExecutionError.new(

@@ -7,7 +7,7 @@ interface Props {
   description: string;
 }
 
-const Definition = ({ score, description }: Props) => {
+const Definition: React.FC<Props> = ({ score, description }) => {
   return (
     <div className={classNames('definition', `definition--${score}`)}>
       <Face className="definition__face" value={score === 'good' ? 1 : -1} />

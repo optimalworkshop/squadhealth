@@ -42,4 +42,6 @@ const ButtonInput = forwardRef<HTMLInputElement, Props>(
   }
 );
 
+ButtonInput.displayName = 'ButtonInput';
+
 export default ButtonInput;

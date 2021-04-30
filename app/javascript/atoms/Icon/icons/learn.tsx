@@ -2,7 +2,7 @@ import React from 'react';
 import COLORS from '../../../styles/colors.module.scss';
 import Icon, { IconProps } from '../Icon';
 
-export default (props: IconProps) => (
+const LearnIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>
     <path
       d="M6 18c-1.1 0-2 .9-2 2s.9 2 2 2h14c-.6 0-1-.9-1-2s.4-2 1-2H6z"
@@ -28,3 +28,5 @@ export default (props: IconProps) => (
     </g>
   </Icon>
 );
+
+export default LearnIcon;

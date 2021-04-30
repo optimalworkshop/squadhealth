@@ -2,7 +2,7 @@ import React from 'react';
 import COLORS from '../../../styles/colors.module.scss';
 import Icon, { IconProps } from '../Icon';
 
-export default (props: IconProps) => (
+const HealthIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>
     <path
       d="M14 16.8V4c0-1.1-.9-2-2-2s-2 .9-2 2v12.8c-.6.5-1 1.3-1 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.7-1-2.2z"
@@ -30,3 +30,5 @@ export default (props: IconProps) => (
     />
   </Icon>
 );
+
+export default HealthIcon;

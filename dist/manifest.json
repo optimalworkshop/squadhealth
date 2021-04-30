@@ -2,24 +2,24 @@
   "entrypoints": {
     "main": {
       "css": [
-        "/packs/css/main-798c9d5b.css"
+        "/packs/css/main-f2afd930.css"
       ],
       "js": [
         "/packs/main.js"
       ],
       "css.map": [
-        "/packs/css/main-798c9d5b.css.map"
+        "/packs/css/main-f2afd930.css.map"
       ],
       "js.map": [
         "/packs/main.js.map",
-        "/packs/main.9e936848c6c74d8d3856.hot-update.js.map"
+        "/packs/main.d47d0b051bfbb85b491d.hot-update.js.map"
       ]
     }
   },
-  "main.css": "/packs/css/main-798c9d5b.css",
-  "main.css.map": "/packs/css/main-798c9d5b.css.map",
+  "main.css": "/packs/css/main-f2afd930.css",
+  "main.css.map": "/packs/css/main-f2afd930.css.map",
   "main.js": "/packs/main.js",
-  "main.js.map": "/packs/main.9e936848c6c74d8d3856.hot-update.js.map",
+  "main.js.map": "/packs/main.d47d0b051bfbb85b491d.hot-update.js.map",
   "media/fonts/DINRoundPro-Black.woff": "/packs/media/fonts/DINRoundPro-Black-9f750633c04289c032e489dde4ab5337.woff",
   "media/fonts/DINRoundPro-Black.woff2": "/packs/media/fonts/DINRoundPro-Black-06fce104287c60289ef267e861dfde4f.woff2",
   "media/fonts/DINRoundPro-Bold.woff": "/packs/media/fonts/DINRoundPro-Bold-b3bebfa9231630e603827acbc8e49751.woff",

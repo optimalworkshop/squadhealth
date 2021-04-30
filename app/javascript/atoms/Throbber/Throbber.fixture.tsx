@@ -7,13 +7,14 @@ const colors = Object.keys(COLORS)
   .filter((key) => key.match(/500$/))
   .map((key) => key.replace(/500$/, ''));
 
-export default () => {
+const ThrobberFixture: React.FC = () => {
   const [color] = useSelect('color', {
     options: colors,
   });
   return (
     <div
       style={{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ['--throbber-color' as any]: COLORS[`${color}500`],
         width: '16rem',
       }}
@@ -22,3 +23,5 @@ export default () => {
     </div>
   );
 };
+
+export default ThrobberFixture;

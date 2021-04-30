@@ -12,7 +12,7 @@ import Squad from '../pages/Squad';
 
 interface Props {}
 
-const App = (props: Props) => {
+const App: React.FC<Props> = () => {
   return (
     <Provider>
       <Router>

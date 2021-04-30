@@ -2,7 +2,7 @@ import React from 'react';
 import COLORS from '../../../styles/colors.module.scss';
 import Icon, { IconProps } from '../Icon';
 
-export default (props: IconProps) => (
+const PawnIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>
     <path
       d="M17 19s-3-6-3-9v-.6c1.2-.7 2-2 2-3.4 0-2.2-1.8-4-4-4S8 3.8 8 6c0 1.5.8 2.8 2 3.4v.6c0 3-3 9-3 9H5v3h14v-3h-2z"
@@ -22,3 +22,5 @@ export default (props: IconProps) => (
     />
   </Icon>
 );
+
+export default PawnIcon;

@@ -24,8 +24,11 @@
 }
 
 .throbber {
+  display: block;
   color: var(--throbber-color);
   filter: url(#goo);
+  width: 1.5em;
+  height: 1.5em;
 
   > g {
     animation: 2s linear infinite throbber;

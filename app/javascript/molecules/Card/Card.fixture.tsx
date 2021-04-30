@@ -3,7 +3,7 @@ import { useValue, useSelect } from 'react-cosmos/fixture';
 import * as Icons from '../../atoms/Icon';
 import Card from './';
 
-export default () => {
+const CardFixture: React.FC = () => {
   const [icon] = useSelect('icon', {
     options: Object.keys(Icons).filter((key) => key !== 'default'),
     defaultValue: 'Value',
@@ -30,3 +30,5 @@ export default () => {
     />
   );
 };
+
+export default CardFixture;

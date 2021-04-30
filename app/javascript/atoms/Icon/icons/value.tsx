@@ -8,7 +8,7 @@ COLORS.lightBlue250 = chroma.average([
   COLORS.lightBlue300,
 ]);
 
-export default (props: IconProps) => (
+const ValueIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>
     <path d="M6 3L2 9H8L6 3Z" fill={COLORS.white} />
     <path d="M6 3L8 9L12 3H6Z" fill={COLORS.lightBlue50} />
@@ -29,3 +29,5 @@ export default (props: IconProps) => (
     />
   </Icon>
 );
+
+export default ValueIcon;

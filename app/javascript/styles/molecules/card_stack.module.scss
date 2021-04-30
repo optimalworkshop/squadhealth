@@ -1,18 +1,14 @@
 .card-stack {
-  flex: 1;
-  align-self: stretch;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  position: relative;
+  width: calc(min(100%, 20rem));
+  height: calc(min(100%, 20rem) / 55 * 90);
+  margin: 0 auto;
 
   &__card {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: calc(min(100%, 20rem));
-    height: calc(min(100%, 20rem) / 55 * 90);
-    margin: calc(min(100%, 20rem) / -2 / 55 * 90) calc(min(100%, 20rem) / -2);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 }

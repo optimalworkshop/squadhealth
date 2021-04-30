@@ -2,7 +2,7 @@ import React from 'react';
 import COLORS from '../../../styles/colors.module.scss';
 import Icon, { IconProps } from '../Icon';
 
-export default (props: IconProps) => (
+const TeamworkIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>
     <path
       d="M12 6c-1.7 0-3-1.3-3-3H7v3c0 3-1 6-3 6v9h16v-9c-2 0-3-3-3-6V3h-2c0 1.7-1.3 3-3 3z"
@@ -18,3 +18,5 @@ export default (props: IconProps) => (
     />
   </Icon>
 );
+
+export default TeamworkIcon;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_000313) do
+ActiveRecord::Schema.define(version: 2021_04_28_044757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,5 +29,15 @@ ActiveRecord::Schema.define(version: 2021_04_23_000313) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "health_check_id", null: false
+    t.string "value"
+    t.integer "score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["health_check_id"], name: "index_votes_on_health_check_id"
+  end
+
   add_foreign_key "health_checks", "squads"
+  add_foreign_key "votes", "health_checks"
 end

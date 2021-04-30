@@ -2,7 +2,7 @@ import React from 'react';
 import COLORS from '../../../styles/colors.module.scss';
 import Icon, { IconProps } from '../Icon';
 
-export default (props: IconProps) => (
+const ReleaseIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>
     <path d="M11 17s4-2 7-5 2-8 2-8L9 15l2 2z" fill={COLORS.rose400} />
     <path d="M7 13s2-4 5-7 8-2 8-2L9 15l-2-2z" fill={COLORS.rose300} />
@@ -22,3 +22,5 @@ export default (props: IconProps) => (
     />
   </Icon>
 );
+
+export default ReleaseIcon;

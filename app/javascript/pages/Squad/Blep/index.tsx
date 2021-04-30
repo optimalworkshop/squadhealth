@@ -9,7 +9,7 @@ type Mode = 'entering' | 'waiting' | 'session';
 
 interface Props {}
 
-const Room = (props: Props) => {
+const Room: React.FC<Props> = () => {
   const { code } = useParams();
 
   const { origin } = window.location;
@@ -35,7 +35,7 @@ const Room = (props: Props) => {
         <Flipped flipId="room__link" stagger="instructions">
           <p>
             Go to{' '}
-            <a href={origin} target="_blank">
+            <a href={origin} target="_blank" rel="noopener noreferrer">
               {origin}
             </a>{' '}
             on your device to join in.

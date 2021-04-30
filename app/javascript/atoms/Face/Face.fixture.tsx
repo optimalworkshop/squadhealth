@@ -2,7 +2,7 @@ import React from 'react';
 import { useValue } from 'react-cosmos/fixture';
 import Face from './';
 
-export default () => {
+const FaceFixture: React.FC = () => {
   const [value, setValue] = useValue<number>('value', { defaultValue: 0.0 });
 
   return (
@@ -18,3 +18,5 @@ export default () => {
     </>
   );
 };
+
+export default FaceFixture;

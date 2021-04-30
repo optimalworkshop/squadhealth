@@ -9,7 +9,7 @@ type ValueKey = keyof typeof VALUES;
 
 export type HealthCheckData = {
   date: DateTime;
-  datapoints: { [key in ValueKey]: number };
+  datapoints: { [_key in ValueKey]: number };
 };
 
 interface Props {
@@ -21,7 +21,7 @@ const Icon = ({ name }: { name: ValueKey }) => {
   return <Component />;
 };
 
-const ResultsTable = ({ data }: Props) => {
+const ResultsTable: React.FC<Props> = ({ data }) => {
   const keys: ValueKey[] = useMemo(
     () =>
       Array.from(
@@ -36,8 +36,6 @@ const ResultsTable = ({ data }: Props) => {
       ),
     [data]
   );
-
-  console.log(data);
 
   return (
     <div className="results-table">

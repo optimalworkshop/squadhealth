@@ -3,8 +3,7 @@ import { gql, useLazyQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import Button from '../../atoms/Button';
 import ButtonInput from '../../molecules/ButtonInput';
-import { Flipped, Flipper } from 'react-flip-toolkit';
-import { SerializableFlippedProps } from 'flip-toolkit/lib/types';
+import { Flipped } from 'react-flip-toolkit';
 
 const EXISTING_SQUAD_QUERY = gql`
   query ExistingSquad($id: ID!) {
@@ -16,7 +15,7 @@ const EXISTING_SQUAD_QUERY = gql`
 
 interface Props {}
 
-const Host = (props: Props) => {
+const Host: React.FC<Props> = () => {
   const [code, setCode] = useState('');
 
   const history = useHistory();
@@ -35,7 +34,7 @@ const Host = (props: Props) => {
 
   const [
     getSquad,
-    { loading: loadingSquad, data: existing, error: existingSquadError },
+    { data: existing, error: existingSquadError },
   ] = useLazyQuery(EXISTING_SQUAD_QUERY);
 
   const findExistingSquad = useCallback(() => {
@@ -63,6 +62,7 @@ const Host = (props: Props) => {
             button="Start"
             size={8}
             value={code}
+            autoComplete="squad-code"
             disabled={!code || undefined}
             onChange={codeChanged}
             onClick={findExistingSquad}

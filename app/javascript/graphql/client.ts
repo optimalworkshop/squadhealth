@@ -6,6 +6,10 @@ import {
   Observable,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
+import { createConsumer } from '@rails/actioncable';
+import { ActionCableLink } from 'graphql-ruby-client';
+
+const cable = createConsumer();
 
 const createCache = () => {
   const cache = new InMemoryCache();
@@ -68,13 +72,21 @@ const createHttpLink = () =>
     credentials: 'include',
   });
 
+const hasSubscriptionOperation = ({ query: { definitions } }) =>
+  definitions.some(
+    ({ kind, operation }) =>
+      kind === 'OperationDefinition' && operation === 'subscription'
+  );
+
+const link = ApolloLink.split(
+  hasSubscriptionOperation,
+  new ActionCableLink({ cable }),
+  createHttpLink()
+);
+
 const createClient = (cache) => {
   return new ApolloClient({
-    link: ApolloLink.from([
-      createErrorLink(),
-      createLinkWithToken(),
-      createHttpLink(),
-    ]),
+    link: ApolloLink.from([createErrorLink(), createLinkWithToken(), link]),
     cache,
   });
 };

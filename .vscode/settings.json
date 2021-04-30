@@ -1,5 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.validate": ["typescript", "typescriptreact"],
   "eslint.alwaysShowStatus": true,
   "[typescript]": {
     "editor.formatOnSave": true
@@ -18,5 +19,6 @@
       "fileMatch": ["cosmos.config.json"],
       "url": "./node_modules/react-cosmos/config.schema.json"
     }
-  ]
+  ],
+  "eslint.packageManager": "yarn"
 }

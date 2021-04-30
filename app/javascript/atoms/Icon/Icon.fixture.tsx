@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Icon from './';
 
-export default () => (
+const IconFixture: React.FC = () => (
   <div
     style={{
       width: '100%',
@@ -14,17 +14,13 @@ export default () => (
     {Object.keys(Icon).map((key) => {
       const Component = Icon[key];
       return (
-        <span>
-          <Component
-            key={`${key}-small`}
-            style={{ width: '1.5rem', height: '1.5rem' }}
-          />
-          <Component
-            key={`${key}-large`}
-            style={{ width: '4rem', height: '4rem' }}
-          />
+        <span key={key}>
+          <Component style={{ width: '1.5rem', height: '1.5rem' }} />
+          <Component style={{ width: '4rem', height: '4rem' }} />
         </span>
       );
     })}
   </div>
 );
+
+export default IconFixture;

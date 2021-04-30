@@ -28,7 +28,7 @@ const Face: React.FC<Props> = ({ value, className }) => {
     const e = Math.min(1, value * 2 + 1);
     const f = Math.max(-1, value * 2 - 1);
     return [
-      `M-2 0`,
+      'M-2 0',
       `C-2 ${e * -1.1}-1.1 ${e * -2} 0 ${e * -2} S2 ${e * -1.1} 2 0`,
       `C2 ${f * -1.1} 1.1 ${f * -2} 0 ${f * -2} S-2 ${f * -1.1} -2 0`,
     ].join(' ');
@@ -48,7 +48,7 @@ const Face: React.FC<Props> = ({ value, className }) => {
       >
         <circle cx={12} cy={12} r={11} fill={fill} />
         <g transform={`translate(0, ${-value})`}>
-          <g transform={`translate(0, 17)`}>
+          <g transform={'translate(0, 17)'}>
             <path
               d={`M9 ${-value} h6 Q12 ${value * 2} 9 ${-value}z`}
               strokeWidth={2}

@@ -4,7 +4,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   code: string;
 }
 
-const RoomCode = ({ code, children, ...props }: Props) => {
+const RoomCode: React.FC<Props> = ({ code, children, ...props }) => {
   return (
     <div className="room-code" {...props}>
       <div className="room-code__underneath room-code__wrapper">

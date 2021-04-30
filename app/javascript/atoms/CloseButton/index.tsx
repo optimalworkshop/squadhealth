@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 
 interface Props {
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const CloseButton = forwardRef<HTMLButtonElement, Props>(({ onClick }, ref) => (
@@ -12,5 +12,7 @@ const CloseButton = forwardRef<HTMLButtonElement, Props>(({ onClick }, ref) => (
     </svg>
   </button>
 ));
+
+CloseButton.displayName = 'CloseButton';
 
 export default CloseButton;

@@ -1,4 +1,4 @@
-import React, { ComponentProps, useEffect } from 'react';
+import React, { ComponentProps, useEffect, forwardRef } from 'react';
 import classNames from 'clsx';
 import { render } from 'react-dom';
 import range from 'lodash/range';
@@ -38,31 +38,36 @@ const MOONS = 3;
 
 interface Props extends ComponentProps<'svg'> {}
 
-const Throbber: React.FC<Props> = ({ className, ...props }) => {
-  useEffect(addFilterDefinition, []);
+const Throbber = forwardRef<SVGSVGElement, Props>(
+  ({ className, ...props }, ref) => {
+    useEffect(addFilterDefinition, []);
 
-  return (
-    <svg
-      className={classNames('throbber', className)}
-      viewBox="-32 -32 64 64"
-      fill="currentColor"
-      {...props}
-    >
-      <g>
-        {range(MOONS).map((i) => (
-          <g key={i} transform={`rotate(${(i * 360) / MOONS}, 0 0)`}>
-            <circle
-              className="throbber__moon"
-              cx={0}
-              cy={0}
-              r={10}
-              style={{ animationDelay: `${(i - 1) / 4}s` }}
-            />
-          </g>
-        ))}
-      </g>
-    </svg>
-  );
-};
+    return (
+      <svg
+        ref={ref}
+        className={classNames('throbber', className)}
+        viewBox="-32 -32 64 64"
+        fill="currentColor"
+        {...props}
+      >
+        <g>
+          {range(MOONS).map((i) => (
+            <g key={i} transform={`rotate(${(i * 360) / MOONS}, 0 0)`}>
+              <circle
+                className="throbber__moon"
+                cx={0}
+                cy={0}
+                r={10}
+                style={{ animationDelay: `${(i - 1) / MOONS}s` }}
+              />
+            </g>
+          ))}
+        </g>
+      </svg>
+    );
+  }
+);
+
+Throbber.displayName = 'Throbber';
 
 export default Throbber;

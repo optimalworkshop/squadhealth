@@ -1,20 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { Flipper, Flipped } from 'react-flip-toolkit';
-import {
-  Link,
-  useParams,
-  useHistory,
-  useLocation,
-  Switch,
-  Route,
-} from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import CloseButton from '../../atoms/CloseButton';
 import HostOptions from './Host';
 import JoinOptions from './Join';
 
 function usePrevious<T>(value: T): T {
-  const ref: any = useRef<T>();
+  const ref = useRef<T>();
   useEffect(() => {
     ref.current = value;
   }, [value]);
@@ -25,7 +17,7 @@ type Mode = 'host' | 'join';
 
 interface Props {}
 
-const Home = (props: Props) => {
+const Home: React.FC<Props> = () => {
   const { mode } = useParams<{ mode: Mode }>();
 
   const modeWas = usePrevious(mode);
@@ -33,8 +25,6 @@ const Home = (props: Props) => {
   const reverse = mode === 'host' || (!mode && modeWas === 'join');
 
   const history = useHistory();
-
-  const location = useLocation();
 
   const back = () => {
     history.push('/');
@@ -45,7 +35,7 @@ const Home = (props: Props) => {
       className="home page"
       flipKey={mode || 'default'}
       spring="gentle"
-      staggerConfig={{ default: { reverse }, children: { reverse: !reverse } }}
+      staggerConfig={{ default: { reverse }, children: { reverse: !mode } }}
       decisionData={{ mode }}
     >
       <div className="mode-selector" data-mode={mode || undefined}>

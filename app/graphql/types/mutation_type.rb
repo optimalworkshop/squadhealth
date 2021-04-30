@@ -1,9 +1,7 @@
 module Types
   class MutationType < Types::BaseObject
-    field :create_squad, Types::SquadType, null: false
-
-    def create_squad
-      Squad.create!
-    end
+    field :create_squad, mutation: Mutations::CreateSquad
+    field :start_session, mutation: Mutations::StartSession
+    field :record_vote, mutation: Mutations::RecordVote
   end
 end

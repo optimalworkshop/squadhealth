@@ -1,4 +1,6 @@
 class HealthCheck < ApplicationRecord
+  include Hashid::Rails
+
   belongs_to :squad
 
   validates :squad_id, :started_at, presence: true
@@ -7,7 +9,7 @@ class HealthCheck < ApplicationRecord
 
   default_scope { most_recent_first }
 
-  before_validation :populate_starts_at
+  before_validation :populate_started_at
 
   before_create :end_previous
 
@@ -29,8 +31,8 @@ class HealthCheck < ApplicationRecord
 
   private
 
-  def populate_starts_at
-    self.starts_at ||= Time.current
+  def populate_started_at
+    self.started_at ||= Time.current
   end
 
   def end_previous

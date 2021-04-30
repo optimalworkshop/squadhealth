@@ -2,7 +2,7 @@ import React from 'react';
 import COLORS from '../../../styles/colors.module.scss';
 import Icon, { IconProps } from '../Icon';
 
-export default (props: IconProps) => (
+const MissionIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>
     <path
       d="M13 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM16 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM18 17a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM19 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
@@ -20,3 +20,5 @@ export default (props: IconProps) => (
     <path d="M6 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill="currentColor" />
   </Icon>
 );
+
+export default MissionIcon;
