@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { gql, useSubscription } from '@apollo/client';
+import React, { useCallback, useEffect, useState } from 'react';
+import { gql, useSubscription, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import Throbber from '../../atoms/Throbber';
+import Interface from './Interface';
 
 const SQUAD_SUBSCRIPTION = gql`
   subscription SquadStatus($code: ID!) {
@@ -16,6 +16,12 @@ const SQUAD_SUBSCRIPTION = gql`
         }
       }
     }
+  }
+`;
+
+const VOTE_MUTATION = gql`
+  mutation RecordVote($code: ID!, $value: String!, $score: Int!) {
+    recordVote(squadId: $code, value: $value, score: $score)
   }
 `;
 
@@ -36,18 +42,25 @@ const Voting: React.FC<Props> = () => {
       // do something about it
       console.log(error);
     } else if (squad) {
-      console.log(squad);
       if (squad.currentHealthCheck) {
         setSession(squad.currentHealthCheck);
       }
     }
   }, [squad, error]);
 
-  return (
-    <div className="voting">
-      {!session && <Throbber style={{ fontSize: '4rem' }} />}
-    </div>
+  const [recordVote] = useMutation(VOTE_MUTATION);
+
+  const vote = useCallback(
+    (value, score) => {
+      recordVote({
+        variables: { code, value, score },
+        optimisticResponse: { recordVote: { recordVote: true } },
+      });
+    },
+    [code]
   );
+
+  return <Interface session={session} onVote={vote} />;
 };
 
 export default Voting;

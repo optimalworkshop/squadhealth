@@ -2,6 +2,7 @@ class HealthCheck < ApplicationRecord
   include Hashid::Rails
 
   belongs_to :squad
+  has_many :votes, dependent: :destroy
 
   validates :squad_id, :started_at, presence: true
 

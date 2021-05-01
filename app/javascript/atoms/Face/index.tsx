@@ -23,7 +23,7 @@ interface Props {
 const fillColor = chroma.scale(FILL_COLOR_SCALE).domain([-1, 1]);
 const strokeColor = chroma.scale(STROKE_COLOR_SCALE).domain([-1, 1]);
 
-const Face: React.FC<Props> = ({ value, className }) => {
+const Face: React.FC<Props> = ({ value, className, ...props }) => {
   const eyePath = useMemo(() => {
     const e = Math.min(1, value * 2 + 1);
     const f = Math.max(-1, value * 2 - 1);
@@ -38,7 +38,11 @@ const Face: React.FC<Props> = ({ value, className }) => {
   const stroke = useMemo(() => strokeColor(value), [value]);
 
   return (
-    <svg className={classNames('face', className)} viewBox="0 0 24 24">
+    <svg
+      className={classNames('face', className)}
+      viewBox="0 0 24 24"
+      {...props}
+    >
       <g
         stroke={stroke}
         strokeWidth={2}

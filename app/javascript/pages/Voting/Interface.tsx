@@ -2,12 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'clsx';
 import chroma from 'chroma-js';
 import shuffle from 'lodash/shuffle';
+import sample from 'lodash/sample';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import { useSpring, animated } from 'react-spring';
 import Throbber from '../../atoms/Throbber';
 import { Value } from '../../constants/values';
 import CardStack from '../../molecules/CardStack';
 import COLORS from '../../styles/colors.module.scss';
+import NEXT_STEPS from './nextSteps';
+import Face from '../../atoms/Face';
 
 const backgroundColor = chroma
   .scale([COLORS.rose300, COLORS.blueGrey50, COLORS.green300])
@@ -18,23 +21,38 @@ export interface VotingSession {
   values: Value[];
 }
 
+type State = 'waiting' | 'voting' | 'finished';
+
 interface Props {
   session?: VotingSession;
+  onVote?: (value: string, score: number) => void;
 }
 
-const Interface: React.FC<Props> = ({ session }) => {
-  const state = session ? 'voting' : 'waiting';
+const Interface: React.FC<Props> = ({ session, onVote }) => {
+  const [state, setState] = useState<State>('waiting');
 
   const [{ background }, setBackground] = useSpring(() => ({ background: 0 }));
 
-  const [sorted, setSorted] = useState<Set<Value>>(new Set());
+  const [sorted, setSorted] = useState<Set<string>>(new Set());
+
+  const nextStep = useMemo(() => sample(NEXT_STEPS), []);
 
   useEffect(() => {
     setBackground({ background: 0 });
   }, [state]);
 
   useEffect(() => {
-    setSorted(new Set<Value>());
+    setState((current) => {
+      switch (current) {
+        case 'waiting':
+          return session ? 'voting' : current;
+        case 'voting':
+          setSorted(new Set<string>());
+          return session ? current : 'waiting';
+        default:
+          return current;
+      }
+    });
   }, [session]);
 
   const cards = useMemo(() => {
@@ -47,9 +65,23 @@ const Interface: React.FC<Props> = ({ session }) => {
     []
   );
 
-  const cardSorted = useCallback((card: Value, _score: number) => {
-    setSorted((current) => new Set(current).add(card));
-  }, []);
+  const cardSorted = useCallback(
+    (card: Value, score: number) => {
+      setSorted((current) => new Set(current).add(card.id));
+      if (onVote) onVote(card.id, score);
+    },
+    [onVote]
+  );
+
+  useEffect(() => {
+    if (
+      state === 'voting' &&
+      cards.length &&
+      cards.every((card) => sorted.has(card.id))
+    ) {
+      setState('finished');
+    }
+  }, [cards, sorted, state]);
 
   return (
     <Flipper
@@ -62,6 +94,9 @@ const Interface: React.FC<Props> = ({ session }) => {
         },
         voting: {
           reverse: state !== 'voting',
+        },
+        finished: {
+          reverse: state === 'finished',
         },
       }}
     >
@@ -91,16 +126,22 @@ const Interface: React.FC<Props> = ({ session }) => {
         </Flipped>
         <Flipped flipId="voting__status" stagger="voting">
           <p className="voting__status">
-            {sorted.size < cards.length ? (
-              <>
-                Card <b>#{sorted.size + 1}</b> of {cards.length}
-              </>
-            ) : (
-              <>Finished!</>
-            )}
+            Card <b>#{Math.min(sorted.size + 1, cards.length)}</b> of{' '}
+            {cards.length}
           </p>
         </Flipped>
       </animated.div>
+      <div className="voting__finished">
+        <Flipped flipId="voting__face" stagger="finished">
+          <Face value={1} />
+        </Flipped>
+        <Flipped flipId="voting__done" stagger="finished">
+          <h3>You’re all done!</h3>
+        </Flipped>
+        <Flipped flipId="voting__next" stagger="finished">
+          <p className="voting__next">{nextStep}</p>
+        </Flipped>
+      </div>
     </Flipper>
   );
 };

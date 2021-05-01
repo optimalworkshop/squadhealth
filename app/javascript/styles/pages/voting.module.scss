@@ -75,4 +75,63 @@
     line-height: 2rem;
     color: var(--text-secondary);
   }
+
+  &__finished {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+    pointer-events: none;
+
+    > * {
+      transform: translateY(-100vh);
+      opacity: 0;
+    }
+
+    h3 {
+      color: var(--text-primary);
+      font-weight: bold;
+      font-size: 2rem;
+      line-height: 1.5;
+      margin: 0 0 0.75rem;
+    }
+
+    p {
+      text-align: center;
+      max-width: 12em;
+      font-size: 2rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin: 0 2rem;
+    }
+
+    .face {
+      width: 12rem;
+      margin-bottom: 2rem;
+
+      path,
+      circle {
+        stroke: color($grey, 300);
+        fill: color($grey, 300);
+      }
+
+      circle {
+        fill: color($grey, 100);
+      }
+    }
+
+    .voting--finished & {
+      > * {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  }
 }
