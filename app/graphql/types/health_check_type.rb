@@ -6,6 +6,9 @@ module Types
     field :ended_at, GraphQL::Types::ISO8601DateTime, null: true
     field :current, Boolean, null: false
     field :values, [ValueType], null: false
+    field :votes, [VoteType], null: false do
+      argument :for, ID, required: false, default_value: nil, as: :person_id
+    end
 
     def id
       object.to_param
@@ -17,6 +20,11 @@ module Types
 
     def values
       ::Value.all
+    end
+
+    def votes(person_id:)
+      scope = person_id ? Person.find(person_id).votes : Vote
+      Loaders::ForeignKeyLoader.for(scope, foreign_key: :health_check_id).load(object.id)
     end
   end
 end

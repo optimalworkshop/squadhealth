@@ -14,5 +14,11 @@ module Types
     def squad(id:)
       Squad.find(id)
     end
+
+    field :identity, Types::IdentityType, null: true
+
+    def identity
+      context[:identity]
+    end
   end
 end

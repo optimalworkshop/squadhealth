@@ -6,7 +6,7 @@ import sample from 'lodash/sample';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import { useSpring, animated } from 'react-spring';
 import Throbber from '../../atoms/Throbber';
-import { Value } from '../../constants/values';
+import { Value, HealthCheck } from '../../types';
 import CardStack from '../../molecules/CardStack';
 import COLORS from '../../styles/colors.module.scss';
 import NEXT_STEPS from './nextSteps';
@@ -16,19 +16,14 @@ const backgroundColor = chroma
   .scale([COLORS.rose300, COLORS.blueGrey50, COLORS.green300])
   .domain([-1, 1]);
 
-export interface VotingSession {
-  id: string;
-  values: Value[];
-}
-
 type State = 'waiting' | 'voting' | 'finished';
 
 interface Props {
-  session?: VotingSession;
+  healthCheck?: HealthCheck;
   onVote?: (value: string, score: number) => void;
 }
 
-const Interface: React.FC<Props> = ({ session, onVote }) => {
+const Interface: React.FC<Props> = ({ healthCheck, onVote }) => {
   const [state, setState] = useState<State>('waiting');
 
   const [{ background }, setBackground] = useSpring(() => ({ background: 0 }));
@@ -42,23 +37,27 @@ const Interface: React.FC<Props> = ({ session, onVote }) => {
   }, [state]);
 
   useEffect(() => {
+    if (healthCheck?.votes) {
+      setSorted(new Set<string>(healthCheck.votes.map(({ value }) => value)));
+    }
+
     setState((current) => {
       switch (current) {
         case 'waiting':
-          return session ? 'voting' : current;
+          return healthCheck ? 'voting' : current;
         case 'voting':
           setSorted(new Set<string>());
-          return session ? current : 'waiting';
+          return healthCheck ? current : 'waiting';
         default:
           return current;
       }
     });
-  }, [session]);
+  }, [healthCheck]);
 
-  const cards = useMemo(() => {
-    if (!session) return [];
-    return shuffle(session.values);
-  }, [session]);
+  const cards = useMemo(
+    () => (healthCheck ? shuffle(healthCheck.values) : []),
+    [healthCheck]
+  );
 
   const dragging = useCallback(
     (position) => setBackground({ background: position }),
@@ -105,7 +104,7 @@ const Interface: React.FC<Props> = ({ session, onVote }) => {
           <Throbber />
         </Flipped>
         <Flipped flipId="waiting__p" stagger="waiting">
-          <p>Waiting for a facilitator to start a voting session…</p>
+          <p>Waiting for a facilitator to start a voting healthCheck…</p>
         </Flipped>
       </div>
       <animated.div
@@ -118,6 +117,7 @@ const Interface: React.FC<Props> = ({ session, onVote }) => {
           {(flippedProps) => (
             <CardStack
               cards={cards}
+              sorted={sorted}
               onDragging={dragging}
               onSort={cardSorted}
               {...flippedProps}

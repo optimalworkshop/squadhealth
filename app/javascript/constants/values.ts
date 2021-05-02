@@ -1,9 +1,4 @@
-export type Value = {
-  id: string;
-  name: string;
-  good: string;
-  bad: string;
-};
+import { Value } from '../types';
 
 const VALUES: { [key: string]: Value } = {
   value: {

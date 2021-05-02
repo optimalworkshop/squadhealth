@@ -9,19 +9,22 @@ import {
 import Provider from '../graphql/Provider';
 import Home from '../pages/Home';
 import Squad from '../pages/Squad';
+import IdentityProvider from '../util/IdentityProvider';
 
 interface Props {}
 
 const App: React.FC<Props> = () => {
   return (
     <Provider>
-      <Router>
-        <Switch>
-          <Route exact path="/:mode(host|join)?" component={Home} />
-          <Route path="/:code([A-Z]{4,})" component={Squad} />
-          <Redirect to="/" />
-        </Switch>
-      </Router>
+      <IdentityProvider>
+        <Router>
+          <Switch>
+            <Route exact path="/:mode(host|join)?" component={Home} />
+            <Route path="/:code([A-Z]{4,})" component={Squad} />
+            <Redirect to="/" />
+          </Switch>
+        </Router>
+      </IdentityProvider>
     </Provider>
   );
 };

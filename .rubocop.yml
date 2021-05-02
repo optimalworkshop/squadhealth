@@ -1,5 +1,8 @@
 require: rubocop-rails
 
+Metrics/AbcSize:
+  Enabled: false
+
 Metrics/MethodLength:
   Enabled: false
 
@@ -8,6 +11,10 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/SymbolProc:
+  Exclude:
+    - db/migrate/*
 
 Gemspec/DateAssignment: # (new in 1.10)
   Enabled: true

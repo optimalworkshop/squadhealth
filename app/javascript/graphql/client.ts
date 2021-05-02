@@ -21,13 +21,23 @@ const createCache = () => {
 
 const getToken = () =>
   document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-const token = getToken();
-const setTokenForOperation = async (operation) =>
+
+const addAuthCookie = (headers) => {
+  const cookie = document.cookie
+    .split(/;\s+/)
+    .find((row) => row.startsWith('authentication='));
+  return cookie
+    ? { ...headers, Authorization: `bearer ${cookie.split('=')[1]}` }
+    : headers;
+};
+
+const setTokenForOperation = async (operation) => {
   operation.setContext({
-    headers: {
-      'X-CSRF-Token': token,
-    },
+    headers: addAuthCookie({
+      'X-CSRF-Token': getToken(),
+    }),
   });
+};
 
 const createLinkWithToken = () =>
   new ApolloLink(

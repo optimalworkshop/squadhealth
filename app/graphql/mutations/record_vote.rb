@@ -4,18 +4,13 @@ module Mutations
     argument :value, String, required: true
     argument :score, Integer, required: true
 
-    payload_type Boolean
+    payload_type Types::VoteType
 
     def resolve(squad_id:, **args)
       squad = Squad.find(squad_id)
       health_check = squad.health_checks.current.first
 
-      if health_check
-        health_check.votes.create!(args)
-        true
-      else
-        false
-      end
+      health_check && identity && health_check.votes.create!(person: identity, **args)
     end
   end
 end

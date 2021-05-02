@@ -9,19 +9,27 @@ import { useDrag } from 'react-use-gesture';
 import upperFirst from 'lodash/upperFirst';
 import mergeRefs from 'react-merge-refs';
 import Card from '../Card';
-import VALUES, { Value } from '../../constants/values';
+import { Value } from '../../types';
+import VALUES from '../../constants/values';
 
 const MAX_ROTATION = 15;
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
   cards?: Value[];
+  sorted?: Set<string>;
   onDragging?: (position: number) => void;
   onSort?: (card: Value, score: number) => void;
 }
 
 const CardStack = forwardRef<HTMLDivElement, Props>(
   (
-    { cards: deck = Object.values(VALUES), onDragging, onSort, ...props },
+    {
+      cards: deck = Object.values(VALUES),
+      sorted = new Set<string>(),
+      onDragging,
+      onSort,
+      ...props
+    },
     ref
   ) => {
     const container = useRef<HTMLDivElement>();
@@ -35,8 +43,6 @@ const CardStack = forwardRef<HTMLDivElement, Props>(
       opacity: i >= cards.length - 2 ? 1 : 0,
       scale: i === cards.length - 1 ? 1 : 0.9,
     }));
-
-    const sorted = useRef<Set<string>>(new Set());
 
     const bind = useDrag(
       ({
@@ -69,13 +75,13 @@ const CardStack = forwardRef<HTMLDivElement, Props>(
           const { id } = deck[i];
 
           if ((Math.abs(dx) > threshold || velocity > 0.2) && !down) {
-            sorted.current.add(id);
+            sorted.add(id);
             if (onSort) {
               onSort(deck[i], dx > 0 ? 1 : -1);
             }
           }
 
-          const isSorted = sorted.current.has(id);
+          const isSorted = sorted.has(id);
           const dir = dx > 0 ? 1 : -1;
 
           if (onDragging) {

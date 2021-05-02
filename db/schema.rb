@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_28_044757) do
+ActiveRecord::Schema.define(version: 2021_05_01_011248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,11 @@ ActiveRecord::Schema.define(version: 2021_04_28_044757) do
     t.index ["squad_id"], name: "index_health_checks_on_squad_id"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "squads", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -35,9 +40,13 @@ ActiveRecord::Schema.define(version: 2021_04_28_044757) do
     t.integer "score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "person_id"
     t.index ["health_check_id"], name: "index_votes_on_health_check_id"
+    t.index ["person_id", "health_check_id", "value"], name: "index_votes_on_person_id_and_health_check_id_and_value", unique: true
+    t.index ["person_id"], name: "index_votes_on_person_id"
   end
 
   add_foreign_key "health_checks", "squads"
   add_foreign_key "votes", "health_checks"
+  add_foreign_key "votes", "people"
 end

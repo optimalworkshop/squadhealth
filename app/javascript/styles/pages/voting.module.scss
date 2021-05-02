@@ -68,12 +68,20 @@
         opacity: 1;
       }
     }
+
+    .card-stack {
+      z-index: 1;
+    }
   }
 
   &__status {
     font-size: 1.5rem;
     line-height: 2rem;
     color: var(--text-secondary);
+
+    b {
+      color: var(--text-primary);
+    }
   }
 
   &__finished {

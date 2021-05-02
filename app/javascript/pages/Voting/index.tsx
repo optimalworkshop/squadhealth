@@ -1,11 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { gql, useSubscription, useMutation } from '@apollo/client';
+import React, { useCallback, useEffect } from 'react';
+import { gql, useSubscription, useMutation, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import Interface from './Interface';
+import { useIdentity } from '../../util/IdentityProvider';
+import { Squad } from '../../types';
 
 const SQUAD_SUBSCRIPTION = gql`
   subscription SquadStatus($code: ID!) {
     squadStatus(id: $code) {
+      currentHealthCheck {
+        id
+      }
+    }
+  }
+`;
+
+const SQUAD_QUERY = gql`
+  query Squad($code: ID!, $identity: ID!) {
+    squad(id: $code) {
       currentHealthCheck {
         id
         values {
@@ -14,6 +26,11 @@ const SQUAD_SUBSCRIPTION = gql`
           good
           bad
         }
+
+        votes(for: $identity) {
+          value
+          score
+        }
       }
     }
   }
@@ -21,32 +38,45 @@ const SQUAD_SUBSCRIPTION = gql`
 
 const VOTE_MUTATION = gql`
   mutation RecordVote($code: ID!, $value: String!, $score: Int!) {
-    recordVote(squadId: $code, value: $value, score: $score)
+    recordVote(squadId: $code, value: $value, score: $score) {
+      value
+      score
+    }
   }
 `;
+
+interface QueryType {
+  squad: Squad;
+}
+
+interface QueryParams {
+  code: string;
+  identity: string;
+}
 
 interface Props {}
 
 const Voting: React.FC<Props> = () => {
   const { code } = useParams<{ code: string }>();
 
-  const [session, setSession] = useState(null);
+  const identity = useIdentity();
 
   const {
-    data: { squadStatus: squad } = {},
-    error,
-  } = useSubscription(SQUAD_SUBSCRIPTION, { variables: { code } });
+    data: { squad: { currentHealthCheck: healthCheck } = {} } = {},
+    refetch,
+  } = useQuery<QueryType, QueryParams>(SQUAD_QUERY, {
+    variables: { code, identity: identity.id },
+  });
+
+  const { data: { squadStatus } = {} } = useSubscription(SQUAD_SUBSCRIPTION, {
+    variables: { code },
+  });
 
   useEffect(() => {
-    if (error) {
-      // do something about it
-      console.log(error);
-    } else if (squad) {
-      if (squad.currentHealthCheck) {
-        setSession(squad.currentHealthCheck);
-      }
+    if (squadStatus?.currentHealthCheck?.id !== healthCheck?.id) {
+      refetch();
     }
-  }, [squad, error]);
+  }, [squadStatus, refetch]);
 
   const [recordVote] = useMutation(VOTE_MUTATION);
 
@@ -60,7 +90,7 @@ const Voting: React.FC<Props> = () => {
     [code]
   );
 
-  return <Interface session={session} onVote={vote} />;
+  return <Interface healthCheck={healthCheck} onVote={vote} />;
 };
 
 export default Voting;

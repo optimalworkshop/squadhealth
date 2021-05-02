@@ -9,8 +9,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      identity: identity
     }
     result = SquadhealthSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -46,5 +45,15 @@ class GraphqlController < ApplicationController
       },
       status: :internal_server_error
     )
+  end
+
+  def identity
+    @identity ||=
+      Token.verify(authentication_token) ||
+      Person.create!.tap { |person| cookies[:authentication] = Token.for(person) }
+  end
+
+  def authentication_token
+    @authentication_token ||= request.headers['Authorization'].to_s.split.last
   end
 end
