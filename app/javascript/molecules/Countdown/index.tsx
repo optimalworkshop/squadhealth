@@ -41,7 +41,7 @@ const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
   useImperativeHandle(ref, () => ({
     ...timer.current,
     start: () => {
-      if (remaining <= 0) {
+      if (remaining < 1000) {
         timer.current.reset();
       }
       timer.current.start();
@@ -64,7 +64,7 @@ const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
   );
 
   useEffect(() => {
-    if (remaining <= 0) {
+    if (remaining < 1000) {
       timer.current.stop();
       if (onComplete) onComplete();
     }

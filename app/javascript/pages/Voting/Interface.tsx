@@ -11,6 +11,7 @@ import CardStack from '../../molecules/CardStack';
 import COLORS from '../../styles/colors.module.scss';
 import NEXT_STEPS from './nextSteps';
 import Face from '../../atoms/Face';
+import confetti from '../../util/confetti';
 
 const backgroundColor = chroma
   .scale([COLORS.rose300, COLORS.blueGrey50, COLORS.green300])
@@ -34,7 +35,7 @@ const Interface: React.FC<Props> = ({ healthCheck, onVote }) => {
 
   useEffect(() => {
     setBackground({ background: 0 });
-  }, [state]);
+  }, [state, setBackground]);
 
   useEffect(() => {
     if (healthCheck?.votes) {
@@ -61,7 +62,7 @@ const Interface: React.FC<Props> = ({ healthCheck, onVote }) => {
 
   const dragging = useCallback(
     (position) => setBackground({ background: position }),
-    []
+    [setBackground]
   );
 
   const cardSorted = useCallback(
@@ -79,6 +80,7 @@ const Interface: React.FC<Props> = ({ healthCheck, onVote }) => {
       cards.every((card) => sorted.has(card.id))
     ) {
       setState('finished');
+      confetti();
     }
   }, [cards, sorted, state]);
 

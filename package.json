@@ -18,6 +18,7 @@
     "@types/react-dom": "^17.0.3",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "canvas-confetti": "^1.4.0",
     "chroma-js": "^2.1.1",
     "clsx": "^1.1.1",
     "css-loader": "^5.2.4",

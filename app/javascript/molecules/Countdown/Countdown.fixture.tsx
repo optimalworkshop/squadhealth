@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Countdown, { CountdownHandles } from './';
 import Button from '../../atoms/Button';
+import confetti from '../../util/confetti';
 
 const CountdownFixture: React.FC = () => {
   const ref = useRef<CountdownHandles>();
@@ -23,8 +24,10 @@ const CountdownFixture: React.FC = () => {
     <>
       <Countdown
         ref={ref}
+        total={5}
         onStart={() => setRunning(true)}
         onStop={() => setRunning(false)}
+        onComplete={confetti}
       />
       {running ? (
         <Button text="Stop" onClick={stop} />
