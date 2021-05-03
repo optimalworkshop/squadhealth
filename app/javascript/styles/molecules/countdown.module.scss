@@ -6,6 +6,7 @@
   font-size: 8rem;
   perspective: 16em;
   transform-style: preserve-3d;
+  user-select: none;
 
   .digit,
   &__separator {

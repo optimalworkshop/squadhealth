@@ -1,5 +1,15 @@
 const { environment } = require('@rails/webpacker');
 
+environment.loaders.append('audio', {
+  test: /\.(mp3|wav)$/,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {},
+    },
+  ],
+});
+
 // // Get the actual sass-loader config
 // const sassLoader = environment.loaders.get('sass');
 // const sassLoaderConfig = sassLoader.use.find(function (element) {

@@ -20,28 +20,30 @@ interface Props {
   total?: number;
   onStart?: () => void;
   onStop?: () => void;
+  onChange?: (secondsRemaining: number) => void;
   onComplete?: () => void;
 }
 
 const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
-  { total = 600, onStart, onStop, onComplete },
+  { total = 600, onStart, onStop, onChange, onComplete },
   ref
 ) => {
   const timer = useRef<TimerHandles>();
 
-  const [remaining, setRemaining] = useState<number>(total * 1000);
+  const [remaining, setRemaining] = useState<number>(total);
 
   const timerChanged = useCallback(
-    (value) => setRemaining(Math.max(total * 1000 - value, 0)),
+    (value) => setRemaining(Math.max(total - Math.floor(value / 1000), 0)),
     [total]
   );
 
-  useEffect(() => setRemaining(total * 1000), [total]);
+  useEffect(() => setRemaining(total), [total]);
 
   useImperativeHandle(ref, () => ({
     ...timer.current,
     start: () => {
-      if (remaining < 1000) {
+      if (remaining <= 0) {
+        setRemaining(total);
         timer.current.reset();
       }
       timer.current.start();
@@ -53,9 +55,7 @@ const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
       flatMap(
         range(0, 2)
           .map((n) =>
-            Math.floor(
-              ((remaining / 1000) % Math.pow(60, n + 1)) / Math.pow(60, n)
-            )
+            Math.floor((remaining % Math.pow(60, n + 1)) / Math.pow(60, n))
           )
           .reverse(),
         (n) => [':', Math.floor(n / 10), n % 10]
@@ -64,11 +64,14 @@ const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
   );
 
   useEffect(() => {
-    if (remaining < 1000) {
-      timer.current.stop();
-      if (onComplete) onComplete();
+    if (onChange) {
+      onChange(remaining);
     }
-  }, [remaining, onComplete]);
+    if (remaining <= 0) {
+      if (onComplete) onComplete();
+      timer.current.stop();
+    }
+  }, [remaining, onChange, onComplete]);
 
   return (
     <div className="countdown">
@@ -79,7 +82,7 @@ const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
         onStop={onStop}
       />
       {digits.map((d, i) =>
-        d === ':' ? <Separator /> : <Digit key={i} digit={d} />
+        d === ':' ? <Separator key={i} /> : <Digit key={i} digit={d} />
       )}
     </div>
   );
