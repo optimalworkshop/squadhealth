@@ -14,6 +14,7 @@ export type HealthCheck = {
   id: string;
   values?: Value[];
   votes?: Vote[];
+  startedAt: string;
 };
 
 export type Squad = {

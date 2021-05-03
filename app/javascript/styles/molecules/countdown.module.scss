@@ -1,0 +1,34 @@
+.countdown {
+  display: flex;
+  font-weight: bold;
+  line-height: 1.5em;
+  text-align: center;
+  font-size: 8rem;
+  perspective: 16em;
+  transform-style: preserve-3d;
+
+  .digit,
+  &__separator {
+    margin: 0 0 0 0.125em;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .digit {
+    width: 1em;
+    height: 1.5em;
+    background-color: var(--text-secondary);
+    color: var(--background);
+    border-radius: 0.125em;
+    perspective: unset;
+    transform-style: unset;
+  }
+
+  &__separator {
+    width: 0.5em;
+    color: var(--text-secondary);
+    line-height: 1.25em;
+  }
+}
