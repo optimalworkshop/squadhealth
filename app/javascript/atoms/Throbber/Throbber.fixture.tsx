@@ -16,7 +16,7 @@ const ThrobberFixture: React.FC = () => {
       style={{
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ['--throbber-color' as any]: COLORS[`${color}500`],
-        width: '16rem',
+        fontSize: '8rem',
       }}
     >
       <Throbber />

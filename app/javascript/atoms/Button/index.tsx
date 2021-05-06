@@ -1,14 +1,13 @@
-import React, { forwardRef, ComponentPropsWithoutRef, ReactNode } from 'react';
+import React, { forwardRef, ComponentPropsWithoutRef } from 'react';
 import classNames, { ClassValue } from 'clsx';
 
 interface Props extends Omit<ComponentPropsWithoutRef<'button'>, 'className'> {
-  text: ReactNode;
   className?: ClassValue;
   type?: 'button' | 'submit' | 'reset';
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ text, className, type = 'button', ...props }, ref) => {
+  ({ className, type = 'button', children, ...props }, ref) => {
     return (
       <button
         ref={ref}
@@ -16,7 +15,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(
         className={classNames('button', className)}
         {...props}
       >
-        <span className="button__text">{text}</span>
+        <span className="button__text">{children}</span>
       </button>
     );
   }

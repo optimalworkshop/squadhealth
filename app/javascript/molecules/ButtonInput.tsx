@@ -33,10 +33,11 @@ const ButtonInput = forwardRef<HTMLInputElement, Props>(
         />
         <Button
           className="button-input__button"
-          text={button}
           disabled={disabled || undefined}
           onClick={onClick}
-        />
+        >
+          {button}
+        </Button>
       </div>
     );
   }

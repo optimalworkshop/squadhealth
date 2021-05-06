@@ -37,11 +37,11 @@ const TimerFixture: React.FC = () => {
       />
       {milliseconds}
       {running ? (
-        <Button text="Stop" onClick={stop} />
+        <Button onClick={stop}>Stop</Button>
       ) : (
-        <Button text="Start" onClick={start} />
+        <Button onClick={start}>Start</Button>
       )}
-      <Button text="Reset" onClick={reset} />
+      <Button onClick={reset}>Reset</Button>
     </>
   );
 };

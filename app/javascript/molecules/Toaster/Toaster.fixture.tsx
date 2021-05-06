@@ -10,7 +10,7 @@ const AddButton: React.FC = () => {
     add({ contents: faker.lorem.sentences() });
   };
 
-  return <Button text="Add" onClick={clicked} />;
+  return <Button onClick={clicked}>Add</Button>;
 };
 
 const ToasterFixture: React.FC = () => <AddButton />;
