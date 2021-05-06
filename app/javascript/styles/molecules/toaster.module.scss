@@ -1,0 +1,97 @@
+@keyframes popup {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.toaster {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: 100vh;
+  touch-action: none;
+  pointer-events: none;
+
+  .toast,
+  &__dummy {
+    width: calc(100vh - 1rem);
+    max-width: 40rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.toast {
+  @include shadow(2);
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background: color($grey, 800, $opacity: 0.85);
+  color: color($grey, 100);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  touch-action: auto;
+  pointer-events: all;
+
+  &--entering {
+    animation: 500ms cubic-bezier(0.25, 1.5, 0.5, 1) 0s 1 popup;
+  }
+
+  &--exiting {
+    animation: 300ms easing(standard) 0s 1 forwards fadeOut;
+  }
+
+  &__contents {
+    flex: 1;
+    padding: 0.5rem;
+
+    &:not(:last-child) {
+      margin-right: 0.5rem;
+      padding-right: 1rem;
+      border-right: 1px solid color($grey, 500);
+    }
+  }
+
+  &__close {
+    display: flex;
+    align-self: center;
+    appearance: none;
+    border: 0;
+    margin: 0;
+    padding: 0.25rem;
+    opacity: 0.5;
+    color: inherit;
+    background-color: transparent;
+    border-radius: 50%;
+
+    &:hover,
+    &:focus,
+    &:active {
+      opacity: 1;
+      outline: none;
+      background: inherit;
+    }
+
+    .icon {
+      color: inherit;
+    }
+  }
+}

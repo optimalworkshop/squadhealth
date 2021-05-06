@@ -23,6 +23,8 @@
     width: 10em;
     height: 10em;
     transform: rotate(35deg);
+    pointer-events: none;
+    touch-action: none;
   }
 
   &__underneath {
@@ -32,6 +34,23 @@
       justify-content: center;
       align-items: center;
       background-color: color(white);
+    }
+
+    button {
+      display: flex;
+      appearance: none;
+      border: 0;
+      background-color: transparent;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+
+      .icon {
+        display: block;
+        width: 10em;
+        height: 10em;
+        color: color($grey, 500);
+      }
     }
   }
 

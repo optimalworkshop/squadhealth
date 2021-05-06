@@ -9,7 +9,6 @@ interface Props {
 }
 
 const Interface: React.FC<Props> = ({ code, loading, healthCheck }) => {
-  console.log(healthCheck);
   return (
     <div className="room">
       <div className="room__header">
