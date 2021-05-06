@@ -39,14 +39,14 @@ const Host: React.FC<Props> = () => {
 
   const findExistingSquad = useCallback(() => {
     getSquad({ variables: { id: code } });
-  }, [code]);
+  }, [code, getSquad]);
 
   useEffect(() => {
     const { squad } = existing || {};
     if (squad) {
       history.push(`/${squad.id}/room`);
     }
-  }, [existing]);
+  }, [existing, history]);
 
   return (
     <div className="mode-content mode-content--host">
@@ -80,7 +80,7 @@ const Host: React.FC<Props> = () => {
         <p>…or get started with a new squad!</p>
       </Flipped>
       <Flipped flipId="host__create" stagger="children">
-        <Button text="Create squad" />
+        <Button>Create squad</Button>
       </Flipped>
     </div>
   );
