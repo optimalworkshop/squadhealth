@@ -1,8 +1,8 @@
-import React, { forwardRef, ComponentPropsWithoutRef } from 'react';
+import React, { forwardRef, ComponentPropsWithoutRef, ReactNode } from 'react';
 import classNames, { ClassValue } from 'clsx';
 
 interface Props extends Omit<ComponentPropsWithoutRef<'button'>, 'className'> {
-  text: string;
+  text: ReactNode;
   className?: ClassValue;
   type?: 'button' | 'submit' | 'reset';
 }
