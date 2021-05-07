@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { useValue } from 'react-cosmos/fixture';
 import useSound from 'use-sound';
 import Countdown, { CountdownHandles } from './';
 import Button from '../../atoms/Button';
@@ -6,8 +7,10 @@ import confetti from '../../util/confetti';
 import tickSound from '../../sounds/click.mp3';
 import completeSound from '../../sounds/complete2.mp3';
 
-const CountdownFixture: React.FC<{ max: number }> = ({ max = 60 }) => {
+const CountdownFixture: React.FC = () => {
   const ref = useRef<CountdownHandles>();
+
+  const [max, setMax] = useValue<number>('max', { defaultValue: 60 });
 
   const [running, setRunning] = useState<boolean>(false);
 
@@ -53,6 +56,7 @@ const CountdownFixture: React.FC<{ max: number }> = ({ max = 60 }) => {
         onStop={() => setRunning(false)}
         onComplete={completed}
         onChange={changed}
+        onTotalChange={setMax}
       />
       {running ? (
         <Button onClick={stop}>Stop</Button>
@@ -64,4 +68,4 @@ const CountdownFixture: React.FC<{ max: number }> = ({ max = 60 }) => {
   );
 };
 
-export default <CountdownFixture max={60} />;
+export default <CountdownFixture />;

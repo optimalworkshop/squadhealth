@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { gql, useSubscription } from '@apollo/client';
+import { gql, useMutation, useSubscription } from '@apollo/client';
 import Interface from './Interface';
 
 const SQUAD_SUBSCRIPTION = gql`
@@ -10,6 +10,15 @@ const SQUAD_SUBSCRIPTION = gql`
         id
         startedAt
       }
+    }
+  }
+`;
+
+const START_SESSION_MUTATION = gql`
+  mutation StartSession($code: ID!) {
+    startSession(id: $code) {
+      id
+      startedAt
     }
   }
 `;
@@ -26,8 +35,17 @@ const Room: React.FC<Props> = () => {
     variables: { code },
   });
 
+  const [startSession] = useMutation(START_SESSION_MUTATION, {
+    variables: { code },
+  });
+
   return (
-    <Interface code={code} loading={loading} healthCheck={currentHealthCheck} />
+    <Interface
+      code={code}
+      loading={loading}
+      healthCheck={currentHealthCheck}
+      onStartSession={startSession}
+    />
   );
 };
 

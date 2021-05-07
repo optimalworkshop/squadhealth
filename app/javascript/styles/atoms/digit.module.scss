@@ -87,4 +87,61 @@
       }
     }
   }
+
+  button {
+    display: flex;
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 1em;
+    width: 100%;
+    appearance: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    font: inherit;
+    text-align: center;
+    opacity: 0;
+    color: var(--text-secondary);
+    cursor: pointer;
+    pointer-events: none;
+    touch-action: none;
+
+    circle {
+      opacity: 0;
+    }
+
+    &:first-of-type {
+      bottom: 100%;
+    }
+
+    &:last-of-type {
+      top: 100%;
+    }
+  }
+
+  &:hover {
+    button {
+      pointer-events: all;
+      touch-action: auto;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+
+        circle {
+          opacity: 1;
+          mix-blend-mode: multiply;
+        }
+      }
+    }
+
+    .digit__split {
+      &::before,
+      &::after {
+        transition: none;
+      }
+    }
+  }
 }

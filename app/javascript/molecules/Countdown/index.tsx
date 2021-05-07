@@ -21,16 +21,29 @@ interface Props {
   onStart?: () => void;
   onStop?: () => void;
   onChange?: (secondsRemaining: number) => void;
+  onTotalChange?: (seconds: number) => void;
   onComplete?: () => void;
 }
 
 const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
-  { total = 600, onStart, onStop, onChange, onComplete },
+  { total = 600, onStart, onStop, onChange, onTotalChange, onComplete },
   ref
 ) => {
   const timer = useRef<TimerHandles>();
 
   const [remaining, setRemaining] = useState<number>(total);
+
+  const [running, setRunning] = useState<boolean>(false);
+
+  const started = () => {
+    setRunning(true);
+    if (onStart) onStart();
+  };
+
+  const stopped = () => {
+    setRunning(false);
+    if (onStop) onStop();
+  };
 
   const timerChanged = useCallback(
     (value) => setRemaining(Math.max(total - Math.floor(value / 1000), 0)),
@@ -73,16 +86,43 @@ const Countdown: ForwardRefRenderFunction<CountdownHandles, Props> = (
     }
   }, [remaining, onChange, onComplete]);
 
+  const digitChanged = (place) => {
+    if (running) return null;
+
+    return (mutate) => {
+      const newDigits = digits.slice(0);
+      const newValue = mutate(digits[place]);
+      newDigits.splice(place, 1, newValue);
+      const newRemaining =
+        newDigits[0] * 600 +
+        newDigits[1] * 60 +
+        newDigits[3] * 10 +
+        newDigits[4];
+      setRemaining(newRemaining);
+      timer.current.reset();
+      if (onTotalChange) onTotalChange(newRemaining);
+    };
+  };
+
   return (
     <div className="countdown">
       <Timer
         ref={timer}
         onChange={timerChanged}
-        onStart={onStart}
-        onStop={onStop}
+        onStart={started}
+        onStop={stopped}
       />
       {digits.map((d, i) =>
-        d === ':' ? <Separator key={i} /> : <Digit key={i} digit={d} />
+        d === ':' ? (
+          <Separator key={i} />
+        ) : (
+          <Digit
+            key={i}
+            digit={d}
+            onChange={digitChanged(i)}
+            max={i % 3 ? 10 : 6}
+          />
+        )
       )}
     </div>
   );
