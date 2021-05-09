@@ -1,69 +1,62 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { DateTime } from 'luxon';
 import { useValue } from 'react-cosmos/fixture';
 import useSound from 'use-sound';
-import Countdown, { CountdownHandles } from './';
-import Button from '../../atoms/Button';
+import Countdown from './';
 import confetti from '../../util/confetti';
-import tickSound from '../../sounds/click.mp3';
-import completeSound from '../../sounds/complete2.mp3';
+import TICK_SOUND from '../../sounds/click.mp3';
+import COMPLETE_SOUND from '../../sounds/complete2.mp3';
+import Button from '../../atoms/Button';
 
 const CountdownFixture: React.FC = () => {
-  const ref = useRef<CountdownHandles>();
+  const [endTime, setEndTime] = useState<DateTime>();
 
-  const [max, setMax] = useValue<number>('max', { defaultValue: 60 });
-
-  const [running, setRunning] = useState<boolean>(false);
+  const [duration, setDuration] = useValue<number>('duration', {
+    defaultValue: 60,
+  });
 
   const start = () => {
-    ref.current?.start();
+    setEndTime(DateTime.now().plus({ seconds: duration }));
   };
 
   const stop = () => {
-    ref.current?.stop();
+    setEndTime(null);
   };
 
-  const reset = () => {
-    ref.current?.reset();
-  };
+  const [playTick] = useSound(TICK_SOUND);
+  const [playFanfare] = useSound(COMPLETE_SOUND);
 
-  const [tick] = useSound(tickSound);
-  const [fanfare] = useSound(completeSound);
-
-  const changed = useCallback(
+  const tick = useCallback(
     (remaining) => {
-      if (running && remaining <= 5) {
-        setTimeout(tick, 300);
+      if (remaining <= 5 && remaining > 0) {
+        setTimeout(playTick, 150);
       }
     },
-    [tick, running]
+    [playTick]
   );
 
   const completed = useCallback(() => {
-    if (running) {
-      setTimeout(() => {
-        confetti();
-        fanfare();
-      }, 300);
-    }
-  }, [fanfare, running]);
+    setTimeout(() => {
+      confetti();
+      playFanfare();
+    }, 150);
+    setEndTime(null);
+  }, [playFanfare]);
 
   return (
     <>
       <Countdown
-        ref={ref}
-        total={max}
-        onStart={() => setRunning(true)}
-        onStop={() => setRunning(false)}
+        seconds={duration}
+        to={endTime}
+        onChange={setDuration}
         onComplete={completed}
-        onChange={changed}
-        onTotalChange={setMax}
+        onTick={tick}
       />
-      {running ? (
+      {endTime ? (
         <Button onClick={stop}>Stop</Button>
       ) : (
         <Button onClick={start}>Start</Button>
       )}
-      <Button onClick={reset}>Reset</Button>
     </>
   );
 };

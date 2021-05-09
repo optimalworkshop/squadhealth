@@ -1,47 +1,23 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import COLORS from '../../styles/colors.module.scss';
-
-type Setter<T> = T | ((T) => T);
 
 interface Props {
   digit: number;
   max?: number;
-  onChange?: (value: Setter<number>) => void;
+  onChange?: (value: number) => void;
 }
 
 const Digit: React.FC<Props> = ({ digit, max = 10, onChange }) => {
   const ref = useRef<HTMLDivElement>();
 
   const increment = useCallback(() => {
-    onChange((current) => (current + 1) % max);
-  }, [onChange, max]);
+    onChange((digit + 1) % max);
+  }, [onChange, digit, max]);
 
   const decrement = useCallback(() => {
-    onChange((current) => (current + max - 1) % max);
-  }, [onChange, max]);
-
-  const wheel = useCallback(
-    (e) => {
-      if (!onChange) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (e.deltaY > 0) {
-        increment();
-      } else {
-        decrement();
-      }
-    },
-    [onChange, increment, decrement]
-  );
-
-  useEffect(() => {
-    const el = ref.current;
-    el.addEventListener('wheel', wheel, { passive: false, capture: true });
-    return () => el.removeEventListener('wheel', wheel);
-  }, [wheel]);
+    onChange((digit + max - 1) % max);
+  }, [onChange, digit, max]);
 
   return (
     <div ref={ref} className="digit">

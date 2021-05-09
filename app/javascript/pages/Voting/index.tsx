@@ -20,6 +20,9 @@ const SQUAD_QUERY = gql`
     squad(id: $code) {
       currentHealthCheck {
         id
+        startedAt
+        endedAt
+
         values {
           id
           name
@@ -76,7 +79,7 @@ const Voting: React.FC<Props> = () => {
     if (squadStatus?.currentHealthCheck?.id !== healthCheck?.id) {
       refetch();
     }
-  }, [squadStatus, refetch]);
+  }, [squadStatus, healthCheck, refetch]);
 
   const [recordVote] = useMutation(VOTE_MUTATION);
 
@@ -87,7 +90,7 @@ const Voting: React.FC<Props> = () => {
         optimisticResponse: { recordVote: { recordVote: true } },
       });
     },
-    [code]
+    [code, recordVote]
   );
 
   return <Interface healthCheck={healthCheck} onVote={vote} />;

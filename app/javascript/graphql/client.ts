@@ -8,11 +8,25 @@ import {
 import { onError } from '@apollo/client/link/error';
 import { createConsumer } from '@rails/actioncable';
 import { ActionCableLink } from 'graphql-ruby-client';
+import { DateTime } from 'luxon';
 
 const cable = createConsumer();
 
+const DateTimeField = {
+  read: (value: string) => DateTime.fromISO(value),
+};
+
 const createCache = () => {
-  const cache = new InMemoryCache();
+  const cache = new InMemoryCache({
+    typePolicies: {
+      HealthCheck: {
+        fields: {
+          startedAt: DateTimeField,
+          endedAt: DateTimeField,
+        },
+      },
+    },
+  });
   if (process.env.NODE_ENV === 'development') {
     window['secretVariableToStoreCache'] = cache;
   }

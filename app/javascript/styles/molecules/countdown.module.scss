@@ -1,5 +1,6 @@
 .countdown {
   display: flex;
+  flex-direction: row-reverse;
   font-weight: bold;
   line-height: 1.5em;
   text-align: center;
@@ -12,7 +13,7 @@
   &__separator {
     margin: 0 0 0 0.125em;
 
-    &:first-child {
+    &:last-child {
       margin-left: 0;
     }
   }

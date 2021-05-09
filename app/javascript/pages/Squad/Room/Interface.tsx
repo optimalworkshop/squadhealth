@@ -10,7 +10,8 @@ interface Props {
   code: string;
   loading?: boolean;
   healthCheck?: HealthCheck;
-  onStartSession?: () => void;
+  onStartSession: (seconds: number) => void;
+  onFinishSession: () => void;
 }
 
 const Interface: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const Interface: React.FC<Props> = ({
   loading = false,
   healthCheck,
   onStartSession,
+  onFinishSession,
 }) => {
   return (
     <Flipper
@@ -33,7 +35,13 @@ const Interface: React.FC<Props> = ({
       </Flipped>
       <Flipped flipId="room__body">
         <div className="room__body">
-          {<Session healthCheck={healthCheck} onStart={onStartSession} />}
+          {
+            <Session
+              healthCheck={healthCheck}
+              onStart={onStartSession}
+              onFinish={onFinishSession}
+            />
+          }
         </div>
       </Flipped>
     </Flipper>

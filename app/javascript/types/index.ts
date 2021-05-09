@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export type Value = {
   id: string;
   name: string;
@@ -14,7 +16,8 @@ export type HealthCheck = {
   id: string;
   values?: Value[];
   votes?: Vote[];
-  startedAt: string;
+  startedAt: DateTime;
+  endedAt: DateTime;
 };
 
 export type Squad = {
