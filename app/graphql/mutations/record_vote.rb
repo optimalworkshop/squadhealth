@@ -10,7 +10,19 @@ module Mutations
       squad = Squad.find(squad_id)
       health_check = squad.health_checks.current.first
 
-      health_check && identity && health_check.votes.create!(person: identity, **args)
+      health_check && identity && create_vote(health_check, person: identity, **args)
+    end
+
+    private
+
+    def create_vote(health_check, **attrs)
+      health_check.votes.create!(attrs).tap do |vote|
+        SquadhealthSchema.subscriptions.trigger(
+          :vote_received,
+          { id: health_check.squad.to_param },
+          vote
+        )
+      end
     end
   end
 end

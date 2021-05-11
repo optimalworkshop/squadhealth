@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
+import get from 'lodash/get';
+import camelCase from 'lodash/camelCase';
+import upperFirst from 'lodash/upperFirst';
 import Interface from './Interface';
 import { HealthCheck, Squad } from '../../../types';
+import FloatyBackground, {
+  FloatyBackgroundHandles,
+} from '../../../molecules/FloatyBackground';
 
 const HEALTH_CHECK_FRAGMENT = gql`
   fragment HealthCheckFields on HealthCheck {
@@ -63,6 +69,14 @@ const END_SESSION_MUTATION = gql`
   ${HEALTH_CHECK_FRAGMENT}
 `;
 
+const VOTE_SUBSCRIPTION = gql`
+  subscription VoteReceived($squadId: ID!) {
+    voteReceived(id: $squadId) {
+      value
+    }
+  }
+`;
+
 interface Props {}
 
 interface QueryData {
@@ -74,6 +88,8 @@ interface QueryVariables {
 }
 
 const Room: React.FC<Props> = () => {
+  const background = useRef<FloatyBackgroundHandles>();
+
   const { code } = useParams<{ code: string }>();
 
   const [currentHealthCheck, setCurrentHealthCheck] = useState<HealthCheck>();
@@ -105,14 +121,27 @@ const Room: React.FC<Props> = () => {
     if (check) setCurrentHealthCheck(check);
   }, [data]);
 
+  useSubscription(VOTE_SUBSCRIPTION, {
+    variables: { squadId: code },
+    onSubscriptionData: ({ subscriptionData }) => {
+      const value = get(subscriptionData, 'data.voteReceived.value');
+      if (value && background.current) {
+        console.log(value);
+        background.current.add(upperFirst(camelCase(value)));
+      }
+    },
+  });
+
   return (
-    <Interface
-      code={code}
-      loading={loading}
-      healthCheck={currentHealthCheck}
-      onStartSession={start}
-      onFinishSession={endSession}
-    />
+    <FloatyBackground ref={background}>
+      <Interface
+        code={code}
+        loading={loading}
+        healthCheck={currentHealthCheck}
+        onStartSession={start}
+        onFinishSession={endSession}
+      />
+    </FloatyBackground>
   );
 };
 

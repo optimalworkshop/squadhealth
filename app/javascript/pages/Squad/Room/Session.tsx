@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import useSound from 'use-sound';
+import { Flipped } from 'react-flip-toolkit';
 import Button from '../../../atoms/Button';
 import Countdown from '../../../molecules/Countdown';
 import { HealthCheck } from '../../../types';
@@ -7,25 +8,38 @@ import confetti from '../../../util/confetti';
 import tickSound from '../../../sounds/click.mp3';
 import completeSound from '../../../sounds/complete2.mp3';
 
-type SessionState = 'waiting' | 'running' | 'finished';
+enum SessionState {
+  WAITING = 'waiting',
+  RUNNING = 'running',
+  FINISHED = 'finished',
+}
+
+const HEADINGS: { [key in SessionState]: string } = {
+  waiting: 'Waiting for participants…',
+  running: 'Cast your votes now!',
+  finished: 'Time’s up!',
+};
 
 interface Props {
+  code: string;
   healthCheck?: HealthCheck;
   onStart: (seconds: number) => void;
   onFinish: () => void;
 }
 
-const Session: React.FC<Props> = ({ healthCheck, onStart, onFinish }) => {
+const Session: React.FC<Props> = ({ code, healthCheck, onStart, onFinish }) => {
   const [time, setTime] = useState<number>(600);
 
-  const [state, setState] = useState<SessionState>('waiting');
+  const [state, setState] = useState<SessionState>(SessionState.WAITING);
 
   const [playTick] = useSound(tickSound);
   const [playFanfare] = useSound(completeSound);
 
   useEffect(() => {
     if (healthCheck?.startedAt) {
-      setState((current) => (current === 'waiting' ? 'running' : current));
+      setState((current) =>
+        current === SessionState.WAITING ? SessionState.RUNNING : current
+      );
     }
   }, [healthCheck]);
 
@@ -33,11 +47,11 @@ const Session: React.FC<Props> = ({ healthCheck, onStart, onFinish }) => {
     if (!healthCheck?.startedAt) {
       onStart(time);
     }
-    setState('running');
+    setState(SessionState.RUNNING);
   }, [healthCheck, onStart, time]);
 
   const completed = useCallback(() => {
-    setState('finished');
+    setState(SessionState.FINISHED);
     setTimeout(() => {
       playFanfare();
       confetti();
@@ -45,7 +59,7 @@ const Session: React.FC<Props> = ({ healthCheck, onStart, onFinish }) => {
   }, [playFanfare]);
 
   const finish = useCallback(() => {
-    setState('finished');
+    setState(SessionState.FINISHED);
     onFinish();
   }, [onFinish]);
 
@@ -58,19 +72,45 @@ const Session: React.FC<Props> = ({ healthCheck, onStart, onFinish }) => {
     [playTick]
   );
 
+  const url = useMemo(() => `${location.origin}/${code}`, [code]);
+
   return (
     <div className="session">
-      <Countdown
-        to={healthCheck?.endedAt}
-        seconds={time}
-        onChange={state === 'running' ? null : setTime}
-        onTick={tick}
-        onComplete={completed}
-      />
-      <div className="session__buttons">
-        {state === 'waiting' && <Button onClick={start}>Start</Button>}
-        {state === 'running' && <Button onClick={finish}>Finish</Button>}
+      <div>
+        <Flipped flipId="session__heading" stagger="session">
+          <h3>{HEADINGS[state]}</h3>
+        </Flipped>
+        <Flipped flipId="session__countdown" stagger="session">
+          <div className="session__countdown">
+            <Countdown
+              to={healthCheck?.endedAt}
+              seconds={time}
+              onChange={state === SessionState.RUNNING ? null : setTime}
+              onTick={tick}
+              onComplete={completed}
+            />
+          </div>
+        </Flipped>
+        <Flipped flipId="session__instructions" stagger="session">
+          <p>
+            Join in at{' '}
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {url}
+            </a>
+          </p>
+        </Flipped>
       </div>
+      <Flipped flipId="session__buttons" stagger="session">
+        <div className="session__buttons">
+          {state === SessionState.WAITING ? (
+            <Button onClick={start}>Start</Button>
+          ) : (
+            <Button onClick={finish} disabled={state !== 'running'}>
+              Finish
+            </Button>
+          )}
+        </div>
+      </Flipped>
     </div>
   );
 };

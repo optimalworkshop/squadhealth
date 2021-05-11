@@ -25,22 +25,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 
     .room--loading & {
       transform: translateY(50vh);
       opacity: 0;
-    }
-
-    &::before {
-      content: "";
-      flex: 1;
-    }
-
-    &::after {
-      content: "";
-      flex: 2;
     }
   }
 
@@ -62,10 +52,33 @@
 }
 
 .session {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+
+  h3 {
+    font-size: 2rem;
+    margin: 0 0 2rem;
+    color: var(--text-secondary);
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin: 2rem 0 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
+
+    a {
+      color: var(--text-accent);
+      text-decoration: none;
+      background-color: color($accent, $opacity: 0.25);
+      border-radius: 0.25em;
+      padding: 0 0.5rem;
+    }
+  }
 
   &__buttons {
     display: flex;
@@ -76,7 +89,7 @@
 
     .button {
       flex: 1 1 0;
-      font-size: 3rem;
+      font-size: 4rem;
 
       + .button {
         margin-left: 2rem;
@@ -84,86 +97,3 @@
     }
   }
 }
-
-// .room-code {
-// }
-
-// .squad,
-// .room {
-//   flex: 1;
-//   align-self: stretch;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   overflow: hidden;
-// }
-
-// .room {
-//   &__instructions {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     justify-content: flex-end;
-//     position: relative;
-//     padding-top: 20rem;
-
-//     > * {
-//       transform: translateY(25vh);
-//       opacity: 0;
-//       pointer-events: none;
-//       touch-action: none;
-//     }
-//   }
-
-//   .room-code {
-//     font-size: 2rem;
-//     transform: scale(0.5) rotate(5deg);
-
-//     &-wrapper {
-//       position: fixed;
-//       top: -4rem;
-//       right: -4rem;
-//       transform: none;
-//       opacity: 1;
-//     }
-//   }
-
-//   &--waiting {
-//     .room__instructions {
-//       > * {
-//         transform: translateY(0);
-//         opacity: 1;
-//         pointer-events: initial;
-//         touch-action: initial;
-//       }
-//     }
-
-//     .room-code {
-//       transform: scale(1) rotate(0);
-
-//       &-wrapper {
-//         position: absolute;
-//         top: 0;
-//         right: 50%;
-//         margin: 0 -10rem;
-//         transform: none;
-//       }
-//     }
-//   }
-
-//   &--entering {
-//     .room-code {
-//       transform: scale(1) rotate(0);
-
-//       &-wrapper {
-//         position: absolute;
-//         top: 0;
-//         right: 50%;
-//         margin: 0 -10rem;
-//         transform: translateY(25vh);
-//         opacity: 0;
-//       }
-//     }
-//   }
-// }

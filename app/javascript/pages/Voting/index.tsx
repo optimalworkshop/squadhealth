@@ -23,7 +23,7 @@ const SQUAD_QUERY = gql`
         startedAt
         endedAt
 
-        values {
+        values(randomise: true) {
           id
           name
           good

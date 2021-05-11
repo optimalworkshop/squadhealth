@@ -1,0 +1,52 @@
+@keyframes float-upwards {
+  0% {
+    transform: translateY(10vmax);
+  }
+
+  100% {
+    transform: translateY(-110vmax);
+  }
+}
+
+.floaty {
+  flex: 1;
+  align-self: stretch;
+  position: relative;
+
+  &__icons,
+  &__children {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__icons {
+    overflow: hidden;
+    pointer-events: none;
+    touch-action: none;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    animation: 5s easing(accelerate) forwards float-upwards;
+    will-change: transform;
+
+    .icon {
+      display: block;
+      width: 16vmin;
+      height: 16vmin;
+      margin: -8vmin;
+    }
+  }
+
+  &__children {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

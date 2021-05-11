@@ -25,6 +25,13 @@ const createCache = () => {
           endedAt: DateTimeField,
         },
       },
+      Mutation: {
+        fields: {
+          recordVote: {
+            merge: (_existing, incoming) => incoming,
+          },
+        },
+      },
     },
   });
   if (process.env.NODE_ENV === 'development') {

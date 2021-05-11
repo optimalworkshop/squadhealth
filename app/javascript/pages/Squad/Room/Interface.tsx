@@ -33,17 +33,16 @@ const Interface: React.FC<Props> = ({
       <Flipped flipId="room__loading">
         <Throbber className="room__loading" />
       </Flipped>
-      <Flipped flipId="room__body">
-        <div className="room__body">
-          {
-            <Session
-              healthCheck={healthCheck}
-              onStart={onStartSession}
-              onFinish={onFinishSession}
-            />
-          }
-        </div>
-      </Flipped>
+      <div className="room__body">
+        {
+          <Session
+            code={code}
+            healthCheck={healthCheck}
+            onStart={onStartSession}
+            onFinish={onFinishSession}
+          />
+        }
+      </div>
     </Flipper>
   );
 };

@@ -18,6 +18,7 @@ $error: rose;
   --text-tertiary: #{color($grey, 400)};
   --text-disabled: #{color($grey, 300)};
   --text-error: #{color($error, 600)};
+  --text-accent: #{color($accent, 600)};
   --border: #{color($grey, 300)};
 
   @include color-variations;

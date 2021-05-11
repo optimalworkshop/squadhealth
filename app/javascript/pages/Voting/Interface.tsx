@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'clsx';
 import chroma from 'chroma-js';
-import shuffle from 'lodash/shuffle';
 import sample from 'lodash/sample';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import { useSpring, animated } from 'react-spring';
@@ -55,10 +54,9 @@ const Interface: React.FC<Props> = ({ healthCheck, onVote }) => {
     });
   }, [healthCheck]);
 
-  const cards = useMemo(
-    () => (healthCheck ? shuffle(healthCheck.values) : []),
-    [healthCheck]
-  );
+  const cards = useMemo(() => (healthCheck ? healthCheck.values : []), [
+    healthCheck,
+  ]);
 
   const dragging = useCallback(
     (position) => setBackground({ background: position }),

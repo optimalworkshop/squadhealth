@@ -72,12 +72,12 @@ const CardStack = forwardRef<HTMLDivElement, Props>(
 
           if (i !== index) return;
 
-          const { id } = deck[i];
+          const { id } = cards[i];
 
           if ((Math.abs(dx) > threshold || velocity > 0.2) && !down) {
             sorted.add(id);
             if (onSort) {
-              onSort(deck[i], dx > 0 ? 1 : -1);
+              onSort(cards[i], dx > 0 ? 1 : -1);
             }
           }
 
