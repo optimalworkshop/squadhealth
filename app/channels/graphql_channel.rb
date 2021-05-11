@@ -27,6 +27,10 @@ class GraphqlChannel < ApplicationCable::Channel
       more: result.subscription?
     }
 
+    @squad ||= Squad.find_by_hashid(variables['code'])
+    @voter = operation_name == 'VoterSquadStatus'
+    @squad&.increment_online_count if @voter
+
     # Track the subscription here so we can remove it
     # on unsubscribe.
     @subscription_ids << result.context[:subscription_id] if result.context[:subscription_id]
@@ -35,6 +39,7 @@ class GraphqlChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
+    @squad&.decrement_online_count if @voter
     @subscription_ids.each do |sid|
       SquadhealthSchema.subscriptions.delete_subscription(sid)
     end

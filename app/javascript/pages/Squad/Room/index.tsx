@@ -34,6 +34,8 @@ const SQUAD_SUBSCRIPTION = gql`
     squadStatus(id: $code) {
       ...SquadFields
     }
+
+    onlineCount(id: $code)
   }
 
   ${SQUAD_FRAGMENT}
@@ -81,6 +83,7 @@ interface Props {}
 
 interface QueryData {
   squad: Squad;
+  onlineCount?: number;
 }
 
 interface QueryVariables {
@@ -91,6 +94,8 @@ const Room: React.FC<Props> = () => {
   const background = useRef<FloatyBackgroundHandles>();
 
   const { code } = useParams<{ code: string }>();
+
+  const [onlineCount, setOnlineCount] = useState<number>(0);
 
   const [currentHealthCheck, setCurrentHealthCheck] = useState<HealthCheck>();
 
@@ -103,6 +108,15 @@ const Room: React.FC<Props> = () => {
     subscribeToMore({
       document: SQUAD_SUBSCRIPTION,
       variables: { code },
+      updateQuery: (existing, { subscriptionData }) => {
+        if (subscriptionData.data) {
+          setOnlineCount(
+            Math.max(subscriptionData.data['onlineCount'] || 0, 0)
+          );
+          return { ...existing, ...subscriptionData.data };
+        }
+        return existing;
+      },
     });
   }, [code, subscribeToMore]);
 
@@ -136,6 +150,7 @@ const Room: React.FC<Props> = () => {
     <FloatyBackground ref={background}>
       <Interface
         code={code}
+        count={onlineCount}
         loading={loading}
         healthCheck={currentHealthCheck}
         onStartSession={start}

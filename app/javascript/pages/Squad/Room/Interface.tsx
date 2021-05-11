@@ -8,6 +8,7 @@ import Session from './Session';
 
 interface Props {
   code: string;
+  count: number;
   loading?: boolean;
   healthCheck?: HealthCheck;
   onStartSession: (seconds: number) => void;
@@ -16,6 +17,7 @@ interface Props {
 
 const Interface: React.FC<Props> = ({
   code,
+  count = 0,
   loading = false,
   healthCheck,
   onStartSession,
@@ -37,6 +39,7 @@ const Interface: React.FC<Props> = ({
         {
           <Session
             code={code}
+            count={count}
             healthCheck={healthCheck}
             onStart={onStartSession}
             onFinish={onFinishSession}

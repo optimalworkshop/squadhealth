@@ -6,7 +6,7 @@ import { useIdentity } from '../../util/IdentityProvider';
 import { Squad } from '../../types';
 
 const SQUAD_SUBSCRIPTION = gql`
-  subscription SquadStatus($code: ID!) {
+  subscription VoterSquadStatus($code: ID!) {
     squadStatus(id: $code) {
       currentHealthCheck {
         id

@@ -6,9 +6,10 @@ import Interface from './Interface';
 
 interface FixtureProps {
   loading: boolean;
+  count: number;
 }
 
-const RoomFixture: React.FC<FixtureProps> = ({ loading }) => {
+const RoomFixture: React.FC<FixtureProps> = ({ loading, count }) => {
   const [code] = useValue<string>('code', { defaultValue: 'ABCD' });
   const [healthCheck, setHealthCheck] = useState<HealthCheck>();
 
@@ -42,6 +43,7 @@ const RoomFixture: React.FC<FixtureProps> = ({ loading }) => {
   return (
     <Interface
       code={code}
+      count={count}
       loading={!healthCheck}
       healthCheck={healthCheck}
       onStartSession={start}
@@ -50,4 +52,4 @@ const RoomFixture: React.FC<FixtureProps> = ({ loading }) => {
   );
 };
 
-export default <RoomFixture loading={true} />;
+export default <RoomFixture loading={true} count={0} />;

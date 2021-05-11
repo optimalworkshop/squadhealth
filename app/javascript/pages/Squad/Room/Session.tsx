@@ -22,12 +22,19 @@ const HEADINGS: { [key in SessionState]: string } = {
 
 interface Props {
   code: string;
+  count: number;
   healthCheck?: HealthCheck;
   onStart: (seconds: number) => void;
   onFinish: () => void;
 }
 
-const Session: React.FC<Props> = ({ code, healthCheck, onStart, onFinish }) => {
+const Session: React.FC<Props> = ({
+  code,
+  count = 0,
+  healthCheck,
+  onStart,
+  onFinish,
+}) => {
   const [time, setTime] = useState<number>(600);
 
   const [state, setState] = useState<SessionState>(SessionState.WAITING);
@@ -74,11 +81,21 @@ const Session: React.FC<Props> = ({ code, healthCheck, onStart, onFinish }) => {
 
   const url = useMemo(() => `${location.origin}/${code}`, [code]);
 
+  const heading = useMemo(() => {
+    if (state === SessionState.FINISHED || !count) {
+      return HEADINGS[state];
+    }
+
+    return count > 1
+      ? `There are ${count} people here.`
+      : 'There is 1 person here';
+  }, [state, count]);
+
   return (
     <div className="session">
       <div>
         <Flipped flipId="session__heading" stagger="session">
-          <h3>{HEADINGS[state]}</h3>
+          <h3>{heading}</h3>
         </Flipped>
         <Flipped flipId="session__countdown" stagger="session">
           <div className="session__countdown">

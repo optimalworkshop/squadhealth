@@ -6,6 +6,11 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Enabled: false
 
+Rails/DynamicFindBy:
+  AllowedMethods:
+    - find_by_sql
+    - find_by_hashid
+
 Style/Documentation:
   Enabled: false
 
