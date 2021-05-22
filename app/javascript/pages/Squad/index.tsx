@@ -6,10 +6,12 @@ import Voting from '../Voting';
 interface Props {}
 
 const Squad: React.FC<Props> = () => (
-  <Switch>
-    <Route path="/:code/room" component={Room} />
-    <Route exact path="/:code" component={Voting} />
-  </Switch>
+  <div className="squad page">
+    <Switch>
+      <Route path="/:code/room" component={Room} />
+      <Route exact path="/:code" component={Voting} />
+    </Switch>
+  </div>
 );
 
 export default Squad;

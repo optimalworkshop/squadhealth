@@ -6,11 +6,11 @@ import Interface from './Interface';
 
 interface FixtureProps {
   loading: boolean;
-  count: number;
 }
 
-const RoomFixture: React.FC<FixtureProps> = ({ loading, count }) => {
+const RoomFixture: React.FC<FixtureProps> = ({ loading }) => {
   const [code] = useValue<string>('code', { defaultValue: 'ABCD' });
+  const [count] = useValue<number>('count', { defaultValue: 0 });
   const [healthCheck, setHealthCheck] = useState<HealthCheck>();
 
   const start = useCallback((seconds: number) => {
@@ -52,4 +52,4 @@ const RoomFixture: React.FC<FixtureProps> = ({ loading, count }) => {
   );
 };
 
-export default <RoomFixture loading={true} count={0} />;
+export default <RoomFixture loading={true} />;

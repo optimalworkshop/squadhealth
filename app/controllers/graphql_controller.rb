@@ -54,6 +54,7 @@ class GraphqlController < ApplicationController
   end
 
   def authentication_token
-    @authentication_token ||= request.headers['Authorization'].to_s.split.last
+    @authentication_token ||=
+      request.headers['Authorization'].to_s.match(/^bearer\s+(.+)$/).try(:[], 1)
   end
 end

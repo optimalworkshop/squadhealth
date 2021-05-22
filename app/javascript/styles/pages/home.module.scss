@@ -31,6 +31,12 @@
       }
     }
   }
+
+  &.enter,
+  &.exit-active,
+  &.exit-done {
+    transform: translateY(-100vh);
+  }
 }
 
 .mode-selector {

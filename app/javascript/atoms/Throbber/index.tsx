@@ -14,11 +14,13 @@ const addFilterDefinition = () => {
   svg.setAttribute('viewBox', '-32, -32, 64, 64');
   svg.setAttribute('fill', 'currentColor');
   svg.classList.add('goo-filter-definition');
-  svg.style.display = 'none';
+  svg.style.position = 'absolute';
+  svg.style.width = '0';
+  svg.style.height = '0';
   document.body.appendChild(svg);
 
   render(
-    <>
+    <defs>
       <filter id="goo">
         <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
         <feColorMatrix
@@ -29,7 +31,7 @@ const addFilterDefinition = () => {
         />
         <feBlend in2="goo" in="SourceGraphic" result="mix" />
       </filter>
-    </>,
+    </defs>,
     svg
   );
 };

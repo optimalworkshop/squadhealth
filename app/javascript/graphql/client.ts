@@ -7,7 +7,7 @@ import {
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { createConsumer } from '@rails/actioncable';
-import { ActionCableLink } from 'graphql-ruby-client';
+import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 import { DateTime } from 'luxon';
 
 const cable = createConsumer();

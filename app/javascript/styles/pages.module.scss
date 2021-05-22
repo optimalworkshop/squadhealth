@@ -1,0 +1,31 @@
+.page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &.enter {
+    transform: translateY(100vh);
+
+    &-active,
+    &-done {
+      transform: translateY(0);
+      transition: transition(transform, $duration: 500ms, $easing: decelerate);
+    }
+  }
+
+  &.exit {
+    transform: translateY(0);
+
+    &-active,
+    &-done {
+      transform: translateY(100vh);
+      transition: transition(transform, $duration: 500ms, $easing: accelerate);
+    }
+  }
+}
